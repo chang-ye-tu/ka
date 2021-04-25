@@ -1,0 +1,716 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     21942,        588]*)
+(*NotebookOutlinePosition[     22586,        610]*)
+(*  CellTagsIndexPosition[     22542,        606]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+    \(rule\  = {\[Zeta]\_11 \[Rule] 
+          1/2 \((1 + \[Eta]\_e/\[Eta]\_i)\), \[IndentingNewLine]\[Zeta]\_12 \
+\[Rule] I/2 \((\[Eta]\_e - \[Eta]\_i)\), \[Zeta]\_21 \[Rule] 
+          I/2 \((1/\[Eta]\_e - 1/\[Eta]\_i)\), \[Zeta]\_22 \[Rule] 
+          1/2 \((1 + \[Eta]\_i/\[Eta]\_e)\), \[Alpha]\_iR \[Rule] \(-I\)*\
+\[Eta]\_i, \[Alpha]\_iL \[Rule] \(-I\)/\[Eta]\_i, \[Alpha]\_eR \[Rule] \
+\(-I\)*\[Eta]\_e, \[Alpha]\_eL \[Rule] \(-I\)/\[Eta]\_e}; 
+    vacuum\  = {\[Gamma]\_eL -> \[Gamma]\_eR};\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(rule\\)\\\" is similar to existing symbol \\\
+\"\\!\\(Rule\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(A\_11 = \((\(\[Zeta]\_21\) \(\[Alpha]\_eR\) \[Gamma]\_eR - \
+\(\[Zeta]\_11\) \[Gamma]\_eL + \[Gamma]\_iL)\); 
+    A\_12 = \((\(\[Zeta]\_22\) \(\[Alpha]\_eR\) \[Gamma]\_eR - \
+\(\[Zeta]\_12\) \[Gamma]\_eL - \(\[Alpha]\_iR\) \[Gamma]\_iR)\);\), "\
+\[IndentingNewLine]", 
+    \(A\_21 = \((\(\[Zeta]\_21\) \[Gamma]\_eR - \(\[Zeta]\_11\) \
+\(\[Alpha]\_eL\) \[Gamma]\_eL + \(\[Alpha]\_iL\) \[Gamma]\_iL)\); 
+    A\_22 = \((\(\[Zeta]\_22\) \[Gamma]\_eR - \(\[Zeta]\_12\) \
+\(\[Alpha]\_eL\) \[Gamma]\_eL - \[Gamma]\_iR)\);\), "\[IndentingNewLine]", 
+    \(G = \(\(A\_11\) A\_22 - \(A\_21\) A\_12 /. rule\) /. vacuum // 
+        Simplify\)}], "Input"],
+
+Cell[BoxData[
+    \(\(\(-2\)\ \[Gamma]\_eR\%2\ \[Eta]\_e\ \[Eta]\_i - 2\ \[Gamma]\_iL\ \
+\[Gamma]\_iR\ \[Eta]\_e\ \[Eta]\_i + \[Gamma]\_eR\ \((\[Gamma]\_iL + \[Gamma]\
+\_iR)\)\ \((\[Eta]\_e\%2 + \[Eta]\_i\%2)\)\)\/\(\[Eta]\_e\ \[Eta]\_i\)\)], \
+"Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(B\_11 = \((\(\[Zeta]\_21\) \(\[Alpha]\_eR\) \[Gamma]\_eR - \
+\(\[Zeta]\_11\) \[Gamma]\_eL - \[Gamma]\_iL)\); 
+    B\_12 = \((\(\[Zeta]\_22\) \(\[Alpha]\_eR\) \[Gamma]\_eR - \
+\(\[Zeta]\_12\) \[Gamma]\_eL + \(\[Alpha]\_iR\) \[Gamma]\_iR)\);\), "\
+\[IndentingNewLine]", 
+    \(B\_21 = \((\(\[Zeta]\_21\) \[Gamma]\_eR - \(\[Zeta]\_11\) \
+\(\[Alpha]\_eL\) \[Gamma]\_eL - \(\[Alpha]\_iL\) \[Gamma]\_iL)\); 
+    B\_22 = \((\(\[Zeta]\_22\) \[Gamma]\_eR - \(\[Zeta]\_12\) \
+\(\[Alpha]\_eL\) \[Gamma]\_eL + \[Gamma]\_iR)\);\), "\[IndentingNewLine]", 
+    \(H = \(\(B\_11\) B\_22 - \(B\_21\) B\_12 /. rule\) /. vacuum // 
+        Simplify\)}], "Input"],
+
+Cell[BoxData[
+    \(\(-\(\(2\ \[Gamma]\_eR\%2\ \[Eta]\_e\ \[Eta]\_i + 
+            2\ \[Gamma]\_iL\ \[Gamma]\_iR\ \[Eta]\_e\ \[Eta]\_i + \
+\[Gamma]\_eR\ \((\[Gamma]\_iL + \[Gamma]\_iR)\)\ \((\[Eta]\_e\%2 + \
+\[Eta]\_i\%2)\)\)\/\(\[Eta]\_e\ \[Eta]\_i\)\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(G - H // Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(\(2\ \[Gamma]\_eR\ \((\[Gamma]\_iL + \[Gamma]\_iR)\)\ \((\[Eta]\_e\%2 + \
+\[Eta]\_i\%2)\)\)\/\(\[Eta]\_e\ \[Eta]\_i\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(A\_12\) B\_22 - \(B\_12\) A\_22 /. rule\) /. vacuum // 
+      Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(\(-\(\(2\ \[ImaginaryI]\ \[Gamma]\_eR\ \[Gamma]\_iR\ \((\[Eta]\_e\%2 - \
+\[Eta]\_i\%2)\)\)\/\[Eta]\_e\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(A\_21\) B\_22 - \(B\_21\) A\_22 /. rule\) /. vacuum // 
+      Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(\(-\(\(2\ \[ImaginaryI]\ \[Gamma]\_eR\ \((\[Gamma]\_iL - \
+\[Gamma]\_iR)\)\)\/\[Eta]\_e\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    RowBox[{"(*", " ", 
+      RowBox[{\(1/
+              2 \((\(\[Zeta]\_21\) \(\[Alpha]\_eR\) \[Gamma]\_eR - \
+\(\[Zeta]\_11\) \[Gamma]\_eL - \[Gamma]\_iL)\) + \(\[Zeta]\_21\) \
+\(\[Alpha]\_eR\) \(\[Gamma]\_eR\) M\_eR - \(\[Zeta]\_11\) \(\[Gamma]\_eL\) 
+            M\_eL + \(\[Gamma]\_iL\) M\_iL\), ";", 
+        StyleBox[\(1/
+                2 \((\(\[Zeta]\_22\) \(\[Alpha]\_eR\) \[Gamma]\_eR - \
+\(\[Zeta]\_12\) \[Gamma]\_eL + \(\[Alpha]\_iR\) \[Gamma]\_iR)\) + \
+\(\[Zeta]\_22\) \(\[Alpha]\_eR\) \(\[Gamma]\_eR\) 
+              M\_eR - \(\[Zeta]\_12\) \(\[Gamma]\_eL\) 
+              M\_eL - \(\[Alpha]\_iR\) \(\[Gamma]\_iR\) M\_iR\),
+          FontSize->24], 
+        StyleBox[";",
+          FontSize->24], 
+        StyleBox[\(1/
+                2 \((\(\[Zeta]\_21\) \[Gamma]\_eR - \(\[Zeta]\_11\) \
+\(\[Alpha]\_eL\) \[Gamma]\_eL - \(\[Alpha]\_iL\) \[Gamma]\_iL)\) + \
+\(\[Zeta]\_21\) \(\[Gamma]\_eR\) 
+              M\_eR - \(\[Zeta]\_11\) \(\[Alpha]\_eL\) \(\[Gamma]\_eL\) 
+              M\_eL + \(\[Alpha]\_iL\) \(\[Gamma]\_iL\) M\_iL\),
+          FontSize->24], 
+        StyleBox[";",
+          FontSize->24], 
+        StyleBox["\[IndentingNewLine]",
+          FontSize->24], 
+        StyleBox[\(1/
+                2 \((\(\[Zeta]\_22\) \[Gamma]\_eR - \(\[Zeta]\_12\) \
+\(\[Alpha]\_eL\) \[Gamma]\_eL + \[Gamma]\_iR)\) + \(\[Zeta]\_22\) \
+\(\[Gamma]\_eR\) M\_eR - \(\[Zeta]\_12\) \(\[Alpha]\_eL\) \(\[Gamma]\_eL\) 
+              M\_eL - \(\[Gamma]\_iR\) M\_iR\),
+          FontSize->24], 
+        StyleBox[";",
+          FontSize->24]}], 
+      StyleBox[" ",
+        FontSize->24], 
+      StyleBox["*)",
+        FontSize->24]}]], "Input",
+  FontSize->24],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\[Zeta]\_21\) \(\[Alpha]\_eR\) \(\[Gamma]\_eR\) 
+            M\_eR - \(\[Zeta]\_11\) \(\[Gamma]\_eL\) M\_eL + \(\[Gamma]\_iL\) 
+            M\_iL /. rule // Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(\(2\ M\_iL\ \[Gamma]\_iL\ \[Eta]\_i + M\_eR\ \[Gamma]\_eR\ \((\(-\[Eta]\
+\_e\) + \[Eta]\_i)\) - M\_eL\ \[Gamma]\_eL\ \((\[Eta]\_e + \
+\[Eta]\_i)\)\)\/\(2\ \[Eta]\_i\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(D[Sin[a\ Sqrt[x^2 + y^2 + z^2]]/Sqrt[x^2 + y^2 + z^2]*
+          Exp[\(-b\) \((Sqrt[x^2 + y^2 + z^2])\)], x] // Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(\(1\/\((x\^2 + y\^2 + z\^2)\)\^\(3/2\)\) \((\[ExponentialE]\^\(\(-b\)\ \
+\@\(x\^2 + y\^2 + z\^2\)\)\ x\ \((a\ \@\(x\^2 + y\^2 + z\^2\)\ Cos[
+                  a\ \@\(x\^2 + y\^2 + z\^2\)] - \((1 + 
+                    b\ \@\(x\^2 + y\^2 + z\^2\))\)\ Sin[
+                  a\ \@\(x\^2 + y\^2 + z\^2\)])\))\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(D[Exp[I*\(\[Gamma]\_L\) \((\(p\_L1\) x + \(p\_L2\) y + \(p\_L3\) z)\)], 
+      x]\)], "Input"],
+
+Cell[BoxData[
+    \(\[ImaginaryI]\ \[ExponentialE]\^\(\[ImaginaryI]\ \((x\ p\_L1 + y\ p\_L2 \
++ z\ p\_L3)\)\ \[Gamma]\_L\)\ p\_L1\ \[Gamma]\_L\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(<< Calculus`VectorAnalysis`;\)\), "\[IndentingNewLine]", 
+    \(\(grad[v_] := Grad[v, Cartesian[x, y, z]];\)\), "\[IndentingNewLine]", 
+    \(\(div[v_] := Div[v, Cartesian[x, y, z]];\)\), "\[IndentingNewLine]", 
+    \(\(curl[v_] := Curl[v, Cartesian[x, y, z]];\)\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(grad\\)\\\" is similar to existing symbol \\\
+\"\\!\\(Grad\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(div\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Div\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(curl\\)\\\" is similar to existing symbol \\\
+\"\\!\\(Curl\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[BoxData[{\(A = {\[Alpha]\_1[x, y, z], \[Alpha]\_2[x, y, z], \[Alpha]\_3[
+          x, y, z]}; 
+    U = u[x, y, 
+        z];\), "\[IndentingNewLine]", \(V = {v\_1[x, y, z], v\_2[x, y, z], 
+          v\_3[x, y, z]};\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"VV", "=", 
+        RowBox[{"{", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["u", 
+                TagBox[\((1, 0, 0)\),
+                  Derivative],
+                MultilineFunction->None], "[", \(x, y, z\), "]"}], ",", 
+            RowBox[{
+              SuperscriptBox["u", 
+                TagBox[\((0, 1, 0)\),
+                  Derivative],
+                MultilineFunction->None], "[", \(x, y, z\), "]"}], ",", 
+            RowBox[{
+              SuperscriptBox["u", 
+                TagBox[\((0, 0, 1)\),
+                  Derivative],
+                MultilineFunction->None], "[", \(x, y, z\), "]"}]}], "}"}]}], 
+      ";"}]}], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"decoration", "=", 
+        RowBox[{"{", 
+          RowBox[{
+            RowBox[{
+              RowBox[{
+                SuperscriptBox["u", 
+                  TagBox[\((1, 0, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(u\_x\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox["u", 
+                  TagBox[\((0, 1, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(u\_y\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox["u", 
+                  TagBox[\((0, 0, 1)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(u\_z\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox["u", 
+                  TagBox[\((1, 1, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(u\_xy\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox["u", 
+                  TagBox[\((1, 0, 1)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(u\_xz\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox["u", 
+                  TagBox[\((0, 1, 1)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(u\_yz\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox["u", 
+                  TagBox[\((2, 0, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(u\_xx\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox["u", 
+                  TagBox[\((0, 2, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(u\_yy\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox["u", 
+                  TagBox[\((0, 0, 2)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(u\_zz\)}], 
+            ",", \(\[Alpha]\_1[x, y, z] -> \[Alpha]\_1\), 
+            ",", \(\[Alpha]\_2[x, y, z] -> \[Alpha]\_2\), 
+            ",", \(\[Alpha]\_3[x, y, z] -> \[Alpha]\_3\), ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(\[Alpha]\_1\), 
+                  TagBox[\((1, 0, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "->", \(\[Alpha]\_x1\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(\[Alpha]\_1\), 
+                  TagBox[\((0, 1, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "->", \(\[Alpha]\_y1\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(\[Alpha]\_1\), 
+                  TagBox[\((0, 0, 1)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "->", \(\[Alpha]\_z1\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(\[Alpha]\_2\), 
+                  TagBox[\((1, 0, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "->", \(\[Alpha]\_x2\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(\[Alpha]\_2\), 
+                  TagBox[\((0, 1, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "->", \(\[Alpha]\_y2\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(\[Alpha]\_2\), 
+                  TagBox[\((0, 0, 1)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "->", \(\[Alpha]\_z2\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(\[Alpha]\_3\), 
+                  TagBox[\((1, 0, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "->", \(\[Alpha]\_x3\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(\[Alpha]\_3\), 
+                  TagBox[\((0, 1, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "->", \(\[Alpha]\_y3\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(\[Alpha]\_3\), 
+                  TagBox[\((0, 0, 1)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "->", \(\[Alpha]\_z3\)}], ",", \(v\_1[x, y, z] \[Rule] v\_1\), 
+            ",", \(v\_2[x, y, z] \[Rule] v\_2\), 
+            ",", \(v\_3[x, y, z] \[Rule] v\_3\), ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(v\_1\), 
+                  TagBox[\((1, 0, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(v\_x1\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(v\_1\), 
+                  TagBox[\((0, 1, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(v\_y1\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(v\_1\), 
+                  TagBox[\((0, 0, 1)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(v\_z1\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(v\_2\), 
+                  TagBox[\((1, 0, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(v\_x2\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(v\_2\), 
+                  TagBox[\((0, 1, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(v\_y2\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(v\_2\), 
+                  TagBox[\((0, 0, 1)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(v\_z2\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(v\_3\), 
+                  TagBox[\((1, 0, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(v\_x3\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(v\_3\), 
+                  TagBox[\((0, 1, 0)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(v\_y3\)}], ",", 
+            RowBox[{
+              RowBox[{
+                SuperscriptBox[\(v\_3\), 
+                  TagBox[\((0, 0, 1)\),
+                    Derivative],
+                  MultilineFunction->None], "[", \(x, y, z\), "]"}], 
+              "\[Rule]", \(v\_z3\)}]}], "}"}]}], ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(grad[A . grad[U]] . grad[U] + A . grad[U]*div[grad[U]] - 
+          1/2*A . grad[grad[U] . grad[U]] /. decoration // Expand\)], "Input"],
+
+Cell[BoxData[
+    \(u\_x\ u\_xx\ \[Alpha]\_1 + u\_x\ u\_yy\ \[Alpha]\_1 + 
+      u\_x\ u\_zz\ \[Alpha]\_1 + u\_xx\ u\_y\ \[Alpha]\_2 + 
+      u\_y\ u\_yy\ \[Alpha]\_2 + u\_y\ u\_zz\ \[Alpha]\_2 + 
+      u\_xx\ u\_z\ \[Alpha]\_3 + u\_yy\ u\_z\ \[Alpha]\_3 + 
+      u\_z\ u\_zz\ \[Alpha]\_3 + u\_x\%2\ \[Alpha]\_x1 + 
+      u\_x\ u\_y\ \[Alpha]\_x2 + u\_x\ u\_z\ \[Alpha]\_x3 + 
+      u\_x\ u\_y\ \[Alpha]\_y1 + u\_y\%2\ \[Alpha]\_y2 + 
+      u\_y\ u\_z\ \[Alpha]\_y3 + u\_x\ u\_z\ \[Alpha]\_z1 + 
+      u\_y\ u\_z\ \[Alpha]\_z2 + u\_z\%2\ \[Alpha]\_z3\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(expr = 
+      div[1/2*A*\((grad[U] . grad[U])\)] - div[\((A . grad[U])\)*grad[U]] - 
+            1/2*div[A]*\((grad[U] . grad[U])\) /. decoration // 
+        Expand\)], "Input"],
+
+Cell[BoxData[
+    \(\(-u\_x\)\ u\_xx\ \[Alpha]\_1 - u\_x\ u\_yy\ \[Alpha]\_1 - 
+      u\_x\ u\_zz\ \[Alpha]\_1 - u\_xx\ u\_y\ \[Alpha]\_2 - 
+      u\_y\ u\_yy\ \[Alpha]\_2 - u\_y\ u\_zz\ \[Alpha]\_2 - 
+      u\_xx\ u\_z\ \[Alpha]\_3 - u\_yy\ u\_z\ \[Alpha]\_3 - 
+      u\_z\ u\_zz\ \[Alpha]\_3 - u\_x\%2\ \[Alpha]\_x1 - 
+      u\_x\ u\_y\ \[Alpha]\_x2 - u\_x\ u\_z\ \[Alpha]\_x3 - 
+      u\_x\ u\_y\ \[Alpha]\_y1 - u\_y\%2\ \[Alpha]\_y2 - 
+      u\_y\ u\_z\ \[Alpha]\_y3 - u\_x\ u\_z\ \[Alpha]\_z1 - 
+      u\_y\ u\_z\ \[Alpha]\_z2 - u\_z\%2\ \[Alpha]\_z3\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Coefficient[expr, \[Alpha]\_1] // Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(\(-u\_x\)\ \((u\_xx + u\_yy + u\_zz)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Coefficient[expr, \[Alpha]\_2] // Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(\(-u\_y\)\ \((u\_xx + u\_yy + u\_zz)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Coefficient[expr, \[Alpha]\_3] // Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(\(-u\_z\)\ \((u\_xx + u\_yy + u\_zz)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(-u\_x\%2\)\ \[Alpha]\_x1 - u\_x\ u\_y\ \[Alpha]\_x2 - 
+      u\_x\ u\_z\ \[Alpha]\_x3 - u\_x\ u\_y\ \[Alpha]\_y1 - 
+      u\_y\%2\ \[Alpha]\_y2 - u\_y\ u\_z\ \[Alpha]\_y3 - 
+      u\_x\ u\_z\ \[Alpha]\_z1 - u\_y\ u\_z\ \[Alpha]\_z2 - 
+      u\_z\%2\ \[Alpha]\_z3\)], "Input"],
+
+Cell[BoxData[
+    \(\(-u\_x\%2\)\ \[Alpha]\_x1 - u\_x\ u\_y\ \[Alpha]\_x2 - 
+      u\_x\ u\_z\ \[Alpha]\_x3 - u\_x\ u\_y\ \[Alpha]\_y1 - 
+      u\_y\%2\ \[Alpha]\_y2 - u\_y\ u\_z\ \[Alpha]\_y3 - 
+      u\_x\ u\_z\ \[Alpha]\_z1 - u\_y\ u\_z\ \[Alpha]\_z2 - 
+      u\_z\%2\ \[Alpha]\_z3\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(div[1/2*A*\((VV . VV)\) - \((VV . A)\) VV] - 
+          1/2*\((VV . VV)\) div[A] + \((VV . A)\) 
+            div[VV] + \((Transpose[grad[A]] . VV)\) . VV /. decoration // 
+      Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(0\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(div[1/2*A*\((V . V)\) - \((V . A)\) V] - 
+          1/2*\((V . V)\) div[A] + \((V . A)\) 
+            div[V] + \((Transpose[grad[A]] . V)\) . V + 
+          Cross[V, A] . curl[V] /. decoration // Simplify\)], "Input"],
+
+Cell[BoxData[
+    \(0\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 721}},
+WindowSize->{1272, 692},
+WindowMargins->{{0, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 525, 8, 143, "Input"],
+Cell[2304, 63, 356, 5, 22, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2697, 73, 663, 11, 109, "Input"],
+Cell[3363, 86, 254, 4, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3654, 95, 663, 11, 109, "Input"],
+Cell[4320, 108, 269, 4, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4626, 117, 50, 1, 41, "Input"],
+Cell[4679, 120, 151, 2, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4867, 127, 107, 2, 41, "Input"],
+Cell[4977, 131, 139, 2, 70, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5153, 138, 107, 2, 41, "Input"],
+Cell[5263, 142, 125, 2, 65, "Output"]
+}, Open  ]],
+Cell[5403, 147, 1676, 39, 143, "Input"],
+
+Cell[CellGroupData[{
+Cell[7104, 190, 200, 3, 41, "Input"],
+Cell[7307, 195, 200, 3, 64, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7544, 203, 153, 2, 75, "Input"],
+Cell[7700, 207, 341, 5, 115, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8078, 217, 114, 2, 41, "Input"],
+Cell[8195, 221, 156, 2, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8388, 228, 299, 4, 143, "Input"],
+Cell[8690, 234, 356, 5, 22, "Message"],
+Cell[9049, 241, 354, 5, 22, "Message"],
+Cell[9406, 248, 356, 5, 22, "Message"]
+}, Open  ]],
+Cell[9777, 256, 949, 24, 110, "Input"],
+Cell[10729, 282, 7841, 198, 357, "Input"],
+
+Cell[CellGroupData[{
+Cell[18595, 484, 156, 2, 75, "Input"],
+Cell[18754, 488, 564, 9, 78, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[19355, 502, 197, 4, 109, "Input"],
+Cell[19555, 508, 569, 9, 78, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20161, 522, 75, 1, 41, "Input"],
+Cell[20239, 525, 72, 1, 41, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20348, 531, 75, 1, 41, "Input"],
+Cell[20426, 534, 72, 1, 41, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20535, 540, 75, 1, 41, "Input"],
+Cell[20613, 543, 72, 1, 41, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20722, 549, 297, 5, 44, "Input"],
+Cell[21022, 556, 298, 5, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[21357, 566, 219, 4, 75, "Input"],
+Cell[21579, 572, 35, 1, 41, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[21651, 578, 237, 4, 75, "Input"],
+Cell[21891, 584, 35, 1, 41, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,5 @@
+
+c_ir*delta*J0_i+c_il*delta*J0_i-c_er*H0_er-c_el*H0_el;
+%i*(c_ir*J0_i*rho-c_il*J0_i*rho-c_er*H0_er+c_el*H0_el);
+-d_nu*(c_ir*delta*J1_i-c_il*delta*J1_i-c_er*H1_er+c_el*H1_el);
+-%i*d_nu*(c_ir*J1_i*rho+c_il*J1_i*rho-c_er*H1_er-c_el*H1_el);

@@ -1,0 +1,17 @@
+
+0 = 0;
+0 = 0;
+0 = 0;
+0 = 0;
+0 = 0;
+0 = 0;
+0 = 0;
+0 = 0;
+-z41/(2*gamma_er)+z31/(2*gamma_el)+delta*z21/(2*k_i)-delta*z11/(2*k_i) = 0;
+-z42/(2*gamma_er)+z32/(2*gamma_el)+delta*z22/(2*k_i)-delta*z12/(2*k_i) = 0;
+0 = 0;
+0 = 0;
+-%i*z41/(2*gamma_er)-%i*z31/(2*gamma_el)+%i*rho*z21/(2*k_i)+%i*rho*z11/(2*k_i) = 0;
+-%i*z42/(2*gamma_er)-%i*z32/(2*gamma_el)+%i*rho*z22/(2*k_i)+%i*rho*z12/(2*k_i) = 0;
+0 = 0;
+0 = 0;

@@ -1,0 +1,2 @@
+
+(rho+delta)*(gamma_er*gamma_ir*rho^2-2*delta*gamma_er*gamma_ir*rho-gamma_er*rho+delta^2*gamma_er*gamma_ir-2*gamma_ir-delta*gamma_er)*(gamma_er*gamma_ir*rho^2+gamma_el*gamma_ir*rho^2+gamma_er*gamma_il*rho^2+gamma_el*gamma_il*rho^2+4*delta*gamma_il*gamma_ir*rho-2*delta*gamma_er*gamma_ir*rho+2*delta*gamma_el*gamma_ir*rho+2*delta*gamma_er*gamma_il*rho-2*delta*gamma_el*gamma_il*rho+4*delta*gamma_el*gamma_er*rho+delta^2*gamma_er*gamma_ir+delta^2*gamma_el*gamma_ir+delta^2*gamma_er*gamma_il+delta^2*gamma_el*gamma_il)/(32*gamma_el*gamma_er*gamma_il*gamma_ir);

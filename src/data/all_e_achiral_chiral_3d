@@ -1,0 +1,5 @@
+
+(-k_e*(rho+delta)/4+k_e*(delta-rho)/4-delta*gamma_il/2)*I;
+(k_e*(rho+delta)/4-k_e*(delta-rho)/4+delta*gamma_ir/2)*I;
+(%i*k_e*(rho+delta)/4+%i*gamma_il*rho/2+%i*k_e*(delta-rho)/4)*I;
+(%i*k_e*(rho+delta)/4+%i*gamma_ir*rho/2+%i*k_e*(delta-rho)/4)*I;

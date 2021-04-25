@@ -1,0 +1,17 @@
+
+-z[2,1]*delta*I/2-z[1,1]*delta*I/2-z[4,1]*I/2-z[3,1]*I/2+z[2,1]*delta*K_g_ir/2+z[1,1]*delta*K_g_il/2-z[4,1]*K_e/2-z[3,1]*K_e/2;
+-z[2,2]*delta*I/2-z[1,2]*delta*I/2-z[4,2]*I/2-z[3,2]*I/2+z[2,2]*delta*K_g_ir/2+z[1,2]*delta*K_g_il/2-z[4,2]*K_e/2-z[3,2]*K_e/2;
+z[2,3]*delta*S_g_ir/2+z[1,3]*delta*S_g_il/2-z[4,3]*S_e/2-z[3,3]*S_e/2;
+z[2,4]*delta*S_g_ir/2+z[1,4]*delta*S_g_il/2-z[4,4]*S_e/2-z[3,4]*S_e/2;
+-%i*z[2,1]*rho*I/2+%i*z[1,1]*rho*I/2-%i*z[4,1]*I/2+%i*z[3,1]*I/2+%i*z[2,1]*K_g_ir*rho/2-%i*z[1,1]*K_g_il*rho/2-%i*z[4,1]*K_e/2+%i*z[3,1]*K_e/2;
+-%i*z[2,2]*rho*I/2+%i*z[1,2]*rho*I/2-%i*z[4,2]*I/2+%i*z[3,2]*I/2+%i*z[2,2]*K_g_ir*rho/2-%i*z[1,2]*K_g_il*rho/2-%i*z[4,2]*K_e/2+%i*z[3,2]*K_e/2;
+%i*z[2,3]*rho*S_g_ir/2-%i*z[1,3]*rho*S_g_il/2-%i*z[4,3]*S_e/2+%i*z[3,3]*S_e/2;
+%i*z[2,4]*rho*S_g_ir/2-%i*z[1,4]*rho*S_g_il/2-%i*z[4,4]*S_e/2+%i*z[3,4]*S_e/2;
+z[2,1]*delta*T_g_ir/(2*gamma_ir)-z[1,1]*delta*T_g_il/(2*gamma_il)-z[4,1]*T_e/(2*k_e)+z[3,1]*T_e/(2*k_e);
+z[2,2]*delta*T_g_ir/(2*gamma_ir)-z[1,2]*delta*T_g_il/(2*gamma_il)-z[4,2]*T_e/(2*k_e)+z[3,2]*T_e/(2*k_e);
+z[4,3]*I/(2*k_e)-z[3,3]*I/(2*k_e)+z[2,3]*delta*I/(2*gamma_ir)-z[1,3]*delta*I/(2*gamma_il)+z[2,3]*delta*Ks_g_ir/(2*gamma_ir)-z[1,3]*delta*Ks_g_il/(2*gamma_il)-z[4,3]*Ks_e/(2*k_e)+z[3,3]*Ks_e/(2*k_e);
+z[4,4]*I/(2*k_e)-z[3,4]*I/(2*k_e)+z[2,4]*delta*I/(2*gamma_ir)-z[1,4]*delta*I/(2*gamma_il)+z[2,4]*delta*Ks_g_ir/(2*gamma_ir)-z[1,4]*delta*Ks_g_il/(2*gamma_il)-z[4,4]*Ks_e/(2*k_e)+z[3,4]*Ks_e/(2*k_e);
+%i*z[2,1]*rho*T_g_ir/(2*gamma_ir)+%i*z[1,1]*rho*T_g_il/(2*gamma_il)-%i*z[4,1]*T_e/(2*k_e)-%i*z[3,1]*T_e/(2*k_e);
+%i*z[2,2]*rho*T_g_ir/(2*gamma_ir)+%i*z[1,2]*rho*T_g_il/(2*gamma_il)-%i*z[4,2]*T_e/(2*k_e)-%i*z[3,2]*T_e/(2*k_e);
+%i*z[2,3]*rho*I/(2*gamma_ir)+%i*z[1,3]*rho*I/(2*gamma_il)+%i*z[4,3]*I/(2*k_e)+%i*z[3,3]*I/(2*k_e)+%i*z[2,3]*Ks_g_ir*rho/(2*gamma_ir)+%i*z[1,3]*Ks_g_il*rho/(2*gamma_il)-%i*z[4,3]*Ks_e/(2*k_e)-%i*z[3,3]*Ks_e/(2*k_e);
+%i*z[2,4]*rho*I/(2*gamma_ir)+%i*z[1,4]*rho*I/(2*gamma_il)+%i*z[4,4]*I/(2*k_e)+%i*z[3,4]*I/(2*k_e)+%i*z[2,4]*Ks_g_ir*rho/(2*gamma_ir)+%i*z[1,4]*Ks_g_il*rho/(2*gamma_il)-%i*z[4,4]*Ks_e/(2*k_e)-%i*z[3,4]*Ks_e/(2*k_e);

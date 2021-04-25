@@ -1,0 +1,3 @@
+
+(N_e_e-k_e*M_e_e)*(psi2*(rho+delta)/2+psi1*(delta-rho)/2);
+(N_e_e+k_e*M_e_e)*(psi1*(rho+delta)/2+psi2*(delta-rho)/2);

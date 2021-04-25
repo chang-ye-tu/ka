@@ -1,0 +1,2 @@
+
+-%i*(gamma_er*k_i*rho^2+gamma_el*k_i*rho^2+2*delta*k_i^2*rho+2*delta*gamma_el*gamma_er*rho+delta^2*gamma_er*k_i+delta^2*gamma_el*k_i)/4;

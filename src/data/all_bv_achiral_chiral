@@ -1,0 +1,5 @@
+
+v0 = delta*((psi2*z22+psi1*z21)*(K_g_ir-I)+(psi2*z12+psi1*z11)*(K_g_il-I)+S_g_ir*(psi4*z24+psi3*z23)+S_g_il*(psi4*z14+psi3*z13))/2-((psi2*z42+psi1*z41)*(I+K_e)+(psi2*z32+psi1*z31)*(I+K_e)+S_e*(psi4*z44+psi3*z43)+S_e*(psi4*z34+psi3*z33))/2;
+w0 = %i*rho*((psi2*z22+psi1*z21)*(K_g_ir-I)-(psi2*z12+psi1*z11)*(K_g_il-I)+S_g_ir*(psi4*z24+psi3*z23)-S_g_il*(psi4*z14+psi3*z13))/2-%i*((psi2*z42+psi1*z41)*(I+K_e)-(psi2*z32+psi1*z31)*(I+K_e)+S_e*(psi4*z44+psi3*z43)-S_e*(psi4*z34+psi3*z33))/2;
+v1 = delta*(((psi4*z24+psi3*z23)*(I+Ks_g_ir)+T_g_ir*(psi2*z22+psi1*z21))/gamma_ir-((psi4*z14+psi3*z13)*(I+Ks_g_il)+T_g_il*(psi2*z12+psi1*z11))/gamma_il)/2-(((psi4*z44+psi3*z43)*(Ks_e-I)+T_e*(psi2*z42+psi1*z41))/k_e-((psi4*z34+psi3*z33)*(Ks_e-I)+T_e*(psi2*z32+psi1*z31))/k_e)/2;
+w1 = %i*rho*(((psi4*z24+psi3*z23)*(I+Ks_g_ir)+T_g_ir*(psi2*z22+psi1*z21))/gamma_ir+((psi4*z14+psi3*z13)*(I+Ks_g_il)+T_g_il*(psi2*z12+psi1*z11))/gamma_il)/2-%i*(((psi4*z44+psi3*z43)*(Ks_e-I)+T_e*(psi2*z42+psi1*z41))/k_e+((psi4*z34+psi3*z33)*(Ks_e-I)+T_e*(psi2*z32+psi1*z31))/k_e)/2;

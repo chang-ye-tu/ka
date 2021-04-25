@@ -1,0 +1,3 @@
+
+-%i*(c_er*H0_er-c_el*H0_el);
+%i*d_nu*(c_er*H1_er+c_el*H1_el);

@@ -1,0 +1,17 @@
+
+(-k_e*rho-delta*gamma_il)*I;
+(-k_e*rho-delta*gamma_ir)*I;
+0;
+0;
+(%i*gamma_il*rho+%i*delta*k_e)*I;
+(-%i*gamma_ir*rho-%i*delta*k_e)*I;
+0;
+0;
+0;
+0;
+-(delta*k_e+gamma_il)*I/(2*gamma_il*k_e);
+(delta*k_e+gamma_ir)*I/(2*gamma_ir*k_e);
+0;
+0;
+(%i*k_e*rho+%i*gamma_il)*I/(2*gamma_il*k_e);
+(%i*k_e*rho+%i*gamma_ir)*I/(2*gamma_ir*k_e);

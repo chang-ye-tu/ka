@@ -1,0 +1,5 @@
+
+2*(delta*(c_ir*J0_ir+c_il*J0_il)/2-(c_er*H0_er+c_el*H0_el)/2);
+2*(%i*(c_ir*J0_ir-c_il*J0_il)*rho/2-%i*(c_er*H0_er-c_el*H0_el)/2);
+2*(delta*(c_il*d_nu*J1_il-c_ir*d_nu*J1_ir)/2-(c_el*d_nu*H1_el-c_er*d_nu*H1_er)/2);
+2*(%i*(-c_ir*d_nu*J1_ir-c_il*d_nu*J1_il)*rho/2-%i*(-c_er*d_nu*H1_er-c_el*d_nu*H1_el)/2);

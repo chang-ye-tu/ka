@@ -1,0 +1,3 @@
+
+w0 = -%i*(psi[1]*z[2,1]*(I+K_g_er)-psi[1]*z[1,1]*(I+K_g_el)+psi[2]*z[2,2]*S_g_er-z[1,2]*psi[2]*S_g_el)/2;
+w1 = -%i*((psi[2]*z[2,2]*(Ks_g_er-I)+psi[1]*z[2,1]*T_g_er)/gamma_er+(z[1,2]*psi[2]*(Ks_g_el-I)+psi[1]*z[1,1]*T_g_el)/gamma_el)/2;

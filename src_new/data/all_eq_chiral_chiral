@@ -1,0 +1,17 @@
+
+0 = 0;
+0 = 0;
+0 = 0;
+0 = 0;
+0 = 0;
+0 = 0;
+0 = 0;
+0 = 0;
+z[2,1]*delta/(2*gamma_ir)-z[1,1]*delta/(2*gamma_il)-z[4,1]/(2*gamma_er)+z[3,1]/(2*gamma_el) = 0;
+z[2,2]*delta/(2*gamma_ir)-z[1,2]*delta/(2*gamma_il)-z[4,2]/(2*gamma_er)+z[3,2]/(2*gamma_el) = 0;
+0 = 0;
+0 = 0;
+%i*z[2,1]*rho/(2*gamma_ir)+%i*z[1,1]*rho/(2*gamma_il)-%i*z[4,1]/(2*gamma_er)-%i*z[3,1]/(2*gamma_el) = 0;
+%i*z[2,2]*rho/(2*gamma_ir)+%i*z[1,2]*rho/(2*gamma_il)-%i*z[4,2]/(2*gamma_er)-%i*z[3,2]/(2*gamma_el) = 0;
+0 = 0;
+0 = 0;

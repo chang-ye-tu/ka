@@ -1,0 +1,17 @@
+
+-((gamma_er+gamma_el)*rho+2*delta*k_i-delta*gamma_er+delta*gamma_el)*I/2;
+-((gamma_er+gamma_el)*rho+2*delta*k_i+delta*gamma_er-delta*gamma_el)*I/2;
+0;
+0;
+((2*%i*k_i-%i*gamma_er+%i*gamma_el)*rho+%i*delta*gamma_er+%i*delta*gamma_el)*I/2;
+-((2*%i*k_i+%i*gamma_er-%i*gamma_el)*rho+%i*delta*gamma_er+%i*delta*gamma_el)*I/2;
+0;
+0;
+0;
+0;
+-(k_i+delta*gamma_el)*I/(2*gamma_el*k_i);
+(k_i+delta*gamma_er)*I/(2*gamma_er*k_i);
+0;
+0;
+(%i*gamma_el*rho+%i*k_i)*I/(2*gamma_el*k_i);
+(%i*gamma_er*rho+%i*k_i)*I/(2*gamma_er*k_i);

@@ -1,0 +1,3 @@
+
+psi[2]*S_g_er_e-2*psi[1]*gamma_er*K_g_er_e;
+psi[2]*S_g_el_e+2*psi[1]*gamma_el*K_g_el_e;

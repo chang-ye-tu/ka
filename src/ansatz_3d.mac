@@ -1,0 +1,244 @@
+kill(all);
+
+operators: [M_g_il, M_g_ir, M_g_el, M_g_er, N_g_il, N_g_ir, N_g_el, N_g_er, I, M_e, M_i, N_e, N_i]$
+
+finalc(cc) := block([tmp, cclist, r, r1, r2], 
+  cclist: 0,
+  for o in operators do (
+    if o = I then tmp: coeff(cc, I) else tmp: factor(coeff(cc, o)),
+    cclist: gforce(tmp) * o + cclist),
+  cclist
+);
+
+gforce(s) := block([r, r1, r2, tmp],
+  tmp: s,
+  for r in [[1/gamma_er,  (beta_e * k_e + 1)/k_e], 
+            [-1/gamma_el, (beta_e * k_e - 1)/k_e],
+            [1/gamma_ir,  (beta_i * k_i + 1)/k_i],
+            [-1/gamma_il, (beta_i * k_i - 1)/k_i]] do
+    ([r1, r2]: r, 
+     if not freeof(num(r2), tmp) then tmp: ratsubst(r1, r2, tmp)),
+  tmp
+);
+
+get_e(cc) := bothcoef(finalc(cc), I)[1] * I;
+get_a(cc) := bothcoef(finalc(cc), I)[2];
+
+/*load("eigen");
+A: matrix([g^2*b, %i*k*g^2/k^2], [-%i*k*g^2/k^2, g^2*b]);
+B: matrix([g^2*b, %i*w*mu*g^2/k^2], [-%i*w*eps*g^2/k^2, g^2*b]);
+eigenvectors(A);
+eigenvectors(B);*/
+
+/* chiral-chiral */
+
+Q_il: gamma_il * M_g_il_i * psi1 + N_g_il_i * psi1;
+Q_ir: -gamma_ir * M_g_ir_i * psi2 + N_g_ir_i * psi2;
+Q_el: (gamma_el * M_g_el_e + N_g_el_e) * (z11 * psi1 + z12 * psi2);
+Q_er: (-gamma_er * M_g_er_e + N_g_er_e) * (z21 * psi1 + z22 * psi2);
+
+Q_il_n: subst([M_g_il_i=M_g_il - I, N_g_il_i=N_g_il], Q_il);
+Q_ir_n: subst([M_g_ir_i=M_g_ir - I, N_g_ir_i=N_g_ir], Q_ir);
+Q_el_n: subst([M_g_el_e=M_g_el + I, N_g_el_e=N_g_el], Q_el);
+Q_er_n: subst([M_g_er_e=M_g_er + I, N_g_er_e=N_g_er], Q_er);
+
+E_i_n: 1/2 * (Q_ir_n + Q_il_n)$ 
+E_e_n: 1/2 * (Q_er_n + Q_el_n)$
+H_i_n: %i / 2 * (Q_ir_n - Q_il_n)$
+H_e_n: %i / 2 * (Q_er_n - Q_el_n)$
+
+eq1: v = delta * E_i_n - E_e_n$
+eq2: w = rho * H_i_n - H_e_n$
+
+c11: coeff(expand(rhs(eq1)), psi1);
+c12: coeff(expand(rhs(eq1)), psi2);
+c21: coeff(expand(rhs(eq2)), psi1);
+c22: coeff(expand(rhs(eq2)), psi2);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_rawc_chiral_chiral_3d", finalc(c11), finalc(c12), finalc(c21), finalc(c22));
+
+e11: coeff(c11, N_g_ir) + coeff(c11, N_g_il) + coeff(c11, N_g_er) + coeff(c11, N_g_el) = 0$
+e12: coeff(c12, N_g_ir) + coeff(c12, N_g_il) + coeff(c12, N_g_er) + coeff(c12, N_g_el) = 0$
+e21: coeff(c21, N_g_ir) + coeff(c21, N_g_il) + coeff(c21, N_g_er) + coeff(c21, N_g_el) = 0$
+e22: coeff(c22, N_g_ir) + coeff(c22, N_g_il) + coeff(c22, N_g_er) + coeff(c22, N_g_el) = 0$
+
+sl: flatten(solve(flatten(makelist(makelist(concat(e, j, i), i, 2), j, 2)), 
+      flatten(makelist(makelist(concat(z, j, i), i, 2), j, 2))))$
+
+c11: subst(sl, c11)$ 
+c12: subst(sl, c12)$
+c21: subst(sl, c21)$
+c22: subst(sl, c22)$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_c_chiral_chiral_3d", finalc(c11), finalc(c12), finalc(c21), finalc(c22));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_q_chiral_chiral_3d", subst(sl, Q_er), subst(sl, Q_el)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_e_chiral_chiral_3d", get_e(c11), get_e(c12), get_e(c21), get_e(c22));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_a_chiral_chiral_3d", get_a(c11), get_a(c12), get_a(c21), get_a(c22));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_eq_chiral_chiral_3d", e11, e12, e21, e22);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_bv_chiral_chiral_3d", eq1, eq2);
+
+det: determinant(subst([I=1], matrix([get_e(c11), get_e(c12)], [get_e(c21), get_e(c22)])))$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_det_chiral_chiral_3d", factor(det));
+
+/* chiral-achiral */
+
+Q_il: k_i * M_i_i * psi1 + N_i_i * psi1;
+Q_ir: -k_i * M_i_i * psi2 + N_i_i * psi2;
+Q_el: (gamma_el * M_g_el_e + N_g_el_e) * (z11 * psi1 + z12 * psi2);
+Q_er: (-gamma_er * M_g_er_e + N_g_er_e) * (z21 * psi1 + z22 * psi2);
+
+Q_il_n: subst([M_i_i=M_i - I, N_i_i=N_i], Q_il);
+Q_ir_n: subst([M_i_i=M_i - I, N_i_i=N_i], Q_ir);
+Q_el_n: subst([M_g_el_e=M_g_el + I, N_g_el_e=N_g_el], Q_el);
+Q_er_n: subst([M_g_er_e=M_g_er + I, N_g_er_e=N_g_er], Q_er);
+
+E_i_n: 1/2 * (Q_ir_n + Q_il_n)$ 
+E_e_n: 1/2 * (Q_er_n + Q_el_n)$
+H_i_n: %i / 2 * (Q_ir_n - Q_il_n)$
+H_e_n: %i / 2 * (Q_er_n - Q_el_n)$
+
+eq1: v = delta * E_i_n - E_e_n$
+eq2: w = rho * H_i_n - H_e_n$
+
+c11: coeff(expand(rhs(eq1)), psi1);
+c12: coeff(expand(rhs(eq1)), psi2);
+c21: coeff(expand(rhs(eq2)), psi1);
+c22: coeff(expand(rhs(eq2)), psi2);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_rawc_chiral_achiral_3d", finalc(c11), finalc(c12), finalc(c21), finalc(c22));
+
+e11: coeff(c11, N_i) + coeff(c11, N_g_er) + coeff(c11, N_g_el) = 0$
+e12: coeff(c12, N_i) + coeff(c12, N_g_er) + coeff(c12, N_g_el) = 0$
+e21: coeff(c21, N_i) + coeff(c21, N_g_er) + coeff(c21, N_g_el) = 0$
+e22: coeff(c22, N_i) + coeff(c22, N_g_er) + coeff(c22, N_g_el) = 0$
+
+sl: flatten(solve(flatten(makelist(makelist(concat(e, j, i), i, 2), j, 2)), 
+      flatten(makelist(makelist(concat(z, j, i), i, 2), j, 2))))$
+
+c11: subst(sl, c11)$ 
+c12: subst(sl, c12)$
+c21: subst(sl, c21)$
+c22: subst(sl, c22)$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_c_chiral_achiral_3d", finalc(c11), finalc(c12), finalc(c21), finalc(c22));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_q_chiral_achiral_3d", subst(sl, Q_er), subst(sl, Q_el)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_e_chiral_achiral_3d", get_e(c11), get_e(c12), get_e(c21), get_e(c22));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_a_chiral_achiral_3d", get_a(c11), get_a(c12), get_a(c21), get_a(c22));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_eq_chiral_achiral_3d", e11, e12, e21, e22);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_bv_chiral_achiral_3d", eq1, eq2);
+
+det: determinant(subst([I=1], matrix([get_e(c11), get_e(c12)], [get_e(c21), get_e(c22)])))$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_det_chiral_achiral_3d", factor(det));
+
+/* achiral-chiral */
+
+Q_il: gamma_il * M_g_il_i * psi1 + N_g_il_i * psi1;
+Q_ir: -gamma_ir * M_g_ir_i * psi2 + N_g_ir_i * psi2;
+Q_el: (k_e * M_e_e + N_e_e) * (z11 * psi1 + z12 * psi2);
+Q_er: (-k_e * M_e_e + N_e_e) * (z21 * psi1 + z22 * psi2);
+
+Q_il_n: subst([M_g_il_i=M_g_il - I, N_g_il_i=N_g_il], Q_il);
+Q_ir_n: subst([M_g_ir_i=M_g_ir - I, N_g_ir_i=N_g_ir], Q_ir);
+Q_el_n: subst([M_e_e=M_e + I, N_e_e=N_e], Q_el);
+Q_er_n: subst([M_e_e=M_e + I, N_e_e=N_e], Q_er);
+
+E_i_n: 1/2 * (Q_ir_n + Q_il_n)$ 
+E_e_n: 1/2 * (Q_er_n + Q_el_n)$
+H_i_n: %i / 2 * (Q_ir_n - Q_il_n)$
+H_e_n: %i / 2 * (Q_er_n - Q_el_n)$
+
+eq1: v = delta * E_i_n - E_e_n$
+eq2: w = rho * H_i_n - H_e_n$
+
+c11: coeff(expand(rhs(eq1)), psi1);
+c12: coeff(expand(rhs(eq1)), psi2);
+c21: coeff(expand(rhs(eq2)), psi1);
+c22: coeff(expand(rhs(eq2)), psi2);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_rawc_achiral_chiral_3d", finalc(c11), finalc(c12), finalc(c21), finalc(c22));
+
+e11: coeff(c11, N_g_ir) + coeff(c11, N_g_il) + coeff(c11, N_e) = 0$
+e12: coeff(c12, N_g_ir) + coeff(c12, N_g_il) + coeff(c12, N_e) = 0$
+e21: coeff(c21, N_g_ir) + coeff(c21, N_g_il) + coeff(c21, N_e) = 0$
+e22: coeff(c22, N_g_ir) + coeff(c22, N_g_il) + coeff(c22, N_e) = 0$
+
+sl: flatten(solve(flatten(makelist(makelist(concat(e, j, i), i, 2), j, 2)), 
+      flatten(makelist(makelist(concat(z, j, i), i, 2), j, 2))))$
+
+c11: subst(sl, c11)$ 
+c12: subst(sl, c12)$
+c21: subst(sl, c21)$
+c22: subst(sl, c22)$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_c_achiral_chiral_3d", finalc(c11), finalc(c12), finalc(c21), finalc(c22));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_q_achiral_chiral_3d", subst(sl, Q_er), subst(sl, Q_el)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_e_achiral_chiral_3d", get_e(c11), get_e(c12), get_e(c21), get_e(c22));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_a_achiral_chiral_3d", get_a(c11), get_a(c12), get_a(c21), get_a(c22));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_eq_achiral_chiral_3d", e11, e12, e21, e22);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_bv_achiral_chiral_3d", eq1, eq2);
+
+det: determinant(subst([I=1], matrix([get_e(c11), get_e(c12)], [get_e(c21), get_e(c22)])))$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_det_achiral_chiral_3d", factor(det));
+
+/* chiral-perfect conductor */
+
+Q_il: 0;
+Q_ir: 0;
+Q_el: gamma_el * M_g_el_e * psi + N_g_el_e * psi;
+Q_er: -gamma_er * M_g_er_e * psi + N_g_er_e * psi;
+
+Q_el_n: subst([M_g_el_e=M_g_el + I, N_g_el_e=N_g_el], Q_el);
+Q_er_n: subst([M_g_er_e=M_g_er + I, N_g_er_e=N_g_er], Q_er);
+
+/* It will be impossible to solve if we impose the ansatz as:
+
+Q_el: g_el*M_g_el_e*psi1 + N_g_el_e*psi1;
+Q_er: -g_er*M_g_er_e*psi2 - N_g_er_e*psi2;
+
+c11: coeff(expand(rhs(eq1)), psi1);
+c12: coeff(expand(rhs(eq1)), psi2);
+c21: coeff(expand(rhs(eq2)), psi1);
+c22: coeff(expand(rhs(eq2)), psi2);
+
+Then c_ij will be in the form 1/2 c1 I + c2 N_k + c3 M_k.
+*/
+
+E_i_n: 1/2 * (Q_ir_n + Q_il_n)$ 
+E_e_n: 1/2 * (Q_er_n + Q_el_n)$
+H_i_n: %i / 2 * (Q_ir_n - Q_il_n)$
+H_e_n: %i / 2 * (Q_er_n - Q_el_n)$
+
+eq1: v = delta * E_i_n - E_e_n$
+eq2: w = rho * H_i_n - H_e_n$
+
+c: coeff(expand(rhs(eq2)), psi);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_rawc_chiral_conductor_3d", finalc(c));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_c_chiral_conductor_3d", finalc(c));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_eq_chiral_conductor_3d", e11, e12, e21, e22);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_e_chiral_conductor_3d", get_e(c));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_a_chiral_conductor_3d", get_a(c));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_bv_chiral_conductor_3d", eq1, eq2);

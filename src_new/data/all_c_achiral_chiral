@@ -1,0 +1,17 @@
+
+-k_e*(rho+delta)*I/2-k_e*(rho-delta)*I/2-delta*gamma_il*I-k_e*K_e*(rho+delta)/2-k_e*K_e*(rho-delta)/2+delta*gamma_il*K_g_il;
+-k_e*(rho+delta)*I/2-k_e*(rho-delta)*I/2-delta*gamma_ir*I-k_e*K_e*(rho+delta)/2-k_e*K_e*(rho-delta)/2+delta*gamma_ir*K_g_ir;
+delta*S_g_il/2-S_e/2;
+delta*S_g_ir/2-S_e/2;
+%i*k_e*(rho+delta)*I/2-%i*k_e*(rho-delta)*I/2+%i*gamma_il*rho*I+%i*k_e*K_e*(rho+delta)/2-%i*k_e*K_e*(rho-delta)/2-%i*gamma_il*K_g_il*rho;
+-%i*k_e*(rho+delta)*I/2+%i*k_e*(rho-delta)*I/2-%i*gamma_ir*rho*I-%i*k_e*K_e*(rho+delta)/2+%i*k_e*K_e*(rho-delta)/2+%i*gamma_ir*K_g_ir*rho;
+%i*S_e/2-%i*rho*S_g_il/2;
+%i*rho*S_g_ir/2-%i*S_e/2;
+-delta*T_g_il+(rho+delta)*T_e/2-(rho-delta)*T_e/2;
+delta*T_g_ir-(rho+delta)*T_e/2+(rho-delta)*T_e/2;
+-I/(2*k_e)-delta*I/(2*gamma_il)-delta*Ks_g_il/(2*gamma_il)+Ks_e/(2*k_e);
+I/(2*k_e)+delta*I/(2*gamma_ir)+delta*Ks_g_ir/(2*gamma_ir)-Ks_e/(2*k_e);
+%i*rho*T_g_il-%i*(rho+delta)*T_e/2-%i*(rho-delta)*T_e/2;
+%i*rho*T_g_ir-%i*(rho+delta)*T_e/2-%i*(rho-delta)*T_e/2;
+%i*rho*I/(2*gamma_il)+%i*I/(2*k_e)+%i*Ks_g_il*rho/(2*gamma_il)-%i*Ks_e/(2*k_e);
+%i*rho*I/(2*gamma_ir)+%i*I/(2*k_e)+%i*Ks_g_ir*rho/(2*gamma_ir)-%i*Ks_e/(2*k_e);

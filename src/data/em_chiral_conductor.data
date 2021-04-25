@@ -1,0 +1,33 @@
+
+\begin{table*}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \caption{$Q_\text{el}^\infty$, chiral--conductor, $\omega=1.0$}
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    n & $\Re{Q_\text{el}^\infty}$ & $\Im{Q_\text{el}^\infty}$ & error \\
+    \midrule
+8 & 0.463559211052 & -0.460881978899 & 0.00290528086333\\ 
+16 & 0.462330209434 & -0.462330386333 & 2.61720255786e-06\\
+    \bottomrule
+  \end{tabular}
+  \\ 
+  $$\text{exact }\Re{Q_\text{el}^\infty}=0.462331504662,\,\Im{Q_\text{el}^\infty}=-0.462331504662$$  
+\end{table*}
+
+
+\begin{table*}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \caption{$Q_\text{er}^\infty$, chiral--conductor, $\omega=1.0$}
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    n & $\Re{Q_\text{er}^\infty}$ & $\Im{Q_\text{er}^\infty}$ & error \\
+    \midrule
+8 & 1.05517487942 & -1.05108924213 & 0.00195575830377\\ 
+16 & 1.05339681853 & -1.05340126998 & 2.11298904147e-06\\
+    \bottomrule
+  \end{tabular}
+  \\ 
+  $$\text{exact }\Re{Q_\text{er}^\infty}=1.05339906482,\,\Im{Q_\text{er}^\infty}=-1.05339906482$$  
+\end{table*}

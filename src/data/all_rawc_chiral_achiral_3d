@@ -1,0 +1,5 @@
+
+(gamma_er*z21/2-gamma_el*z11/2-delta*k_i/2)*I-N_g_er*z21/2+gamma_er*M_g_er*z21/2-N_g_el*z11/2-gamma_el*M_g_el*z11/2+delta*N_i/2+delta*k_i*M_i/2;
+(gamma_er*z22/2-gamma_el*z12/2+delta*k_i/2)*I-N_g_er*z22/2+gamma_er*M_g_er*z22/2-N_g_el*z12/2-gamma_el*M_g_el*z12/2+delta*N_i/2-delta*k_i*M_i/2;
+(%i*gamma_er*z21/2+%i*gamma_el*z11/2+%i*k_i*rho/2)*I-%i*N_g_er*z21/2+%i*gamma_er*M_g_er*z21/2+%i*N_g_el*z11/2+%i*gamma_el*M_g_el*z11/2-%i*N_i*rho/2-%i*k_i*M_i*rho/2;
+(%i*gamma_er*z22/2+%i*gamma_el*z12/2+%i*k_i*rho/2)*I-%i*N_g_er*z22/2+%i*gamma_er*M_g_er*z22/2+%i*N_g_el*z12/2+%i*gamma_el*M_g_el*z12/2+%i*N_i*rho/2-%i*k_i*M_i*rho/2;

@@ -1,0 +1,3 @@
+
+v = delta*(-gamma_ir*psi2*(M_g_ir-I)+gamma_il*psi1*(M_g_il-I)+N_g_ir*psi2+N_g_il*psi1)/2-((psi2*z22+psi1*z21)*(N_g_er-gamma_er*(I+M_g_er))+(psi2*z12+psi1*z11)*(gamma_el*(I+M_g_el)+N_g_el))/2;
+w = %i*rho*(-gamma_ir*psi2*(M_g_ir-I)-gamma_il*psi1*(M_g_il-I)+N_g_ir*psi2-N_g_il*psi1)/2-%i*((psi2*z22+psi1*z21)*(N_g_er-gamma_er*(I+M_g_er))-(psi2*z12+psi1*z11)*(gamma_el*(I+M_g_el)+N_g_el))/2;

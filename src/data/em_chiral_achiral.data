@@ -1,0 +1,41 @@
+
+\begin{table*}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \caption{Far Field Patterns: chiral-achiral-test}
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    n & $\Re{Q_\text{el}^\infty}$ & $\Im{Q_\text{el}^\infty}$ & error \\
+    \midrule
+8 & 0.30026870953 & -0.712558815495 & 1.82383712303\\ 
+16 & 0.200579979636 & -0.410772136414 & 0.732891144812\\ 
+32 & 0.20170499083 & -0.20171835406 & 3.41968012876e-05\\ 
+64 & 0.201709958923 & -0.201709958923 & 3.21233736018e-15\\ 
+128 & 0.201709958923 & -0.201709958923 & 6.61918584537e-15\\ 
+
+    \bottomrule
+  \end{tabular}
+  \\ 
+  $$\text{exact }\Re{Q_\text{el}^\infty}=0.201709958923,\,\Im{Q_\text{el}^\infty}=-0.201709958923$$  
+\end{table*}
+
+
+\begin{table*}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \caption{Far Field Patterns: chiral-achiral-test}
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    n & $\Re{Q_\text{er}^\infty}$ & $\Im{Q_\text{er}^\infty}$ & error \\
+    \midrule
+8 & -0.20701351838 & -0.109212287124 & 1.12960975313\\ 
+16 & 0.547735625223 & -0.536176317021 & 0.0124250415665\\ 
+32 & 0.538582690729 & -0.53858241491 & 7.65288725345e-07\\ 
+64 & 0.538582941234 & -0.538582941234 & 1.56989871106e-15\\ 
+128 & 0.538582941234 & -0.538582941234 & 1.0306889985e-15\\ 
+
+    \bottomrule
+  \end{tabular}
+  \\ 
+  $$\text{exact }\Re{Q_\text{er}^\infty}=0.538582941234,\,\Im{Q_\text{er}^\infty}=-0.538582941234$$  
+\end{table*}

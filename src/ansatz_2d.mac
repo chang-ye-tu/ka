@@ -1,0 +1,699 @@
+/* declarations and utilities */
+
+kill(all)$
+
+operators: [K_g_il, K_g_ir, K_g_el, K_g_er, Ks_g_il, Ks_g_ir, Ks_g_el, Ks_g_er, S_g_il, S_g_ir, S_g_el, S_g_er, T_g_il, T_g_ir, T_g_el, T_g_er, I, Ks_e, Ks_i, K_e, K_i,T_i, T_e, S_i, S_e]$
+
+gforce(s) := block([r, r1, r2, tmp],
+  tmp: s,
+  for r in [[1/gamma_er,  (beta_e * k_e + 1)/k_e], 
+            [-1/gamma_el, (beta_e * k_e - 1)/k_e],
+            [1/gamma_ir,  (beta_i * k_i + 1)/k_i],
+            [-1/gamma_il, (beta_i * k_i - 1)/k_i]] do
+    ([r1, r2]: r, 
+     if not freeof(num(r2), tmp) then tmp: ratsubst(r1, r2, tmp)),
+  tmp
+)$
+
+finalc(cc) := block([tmp, cclist, r, r1, r2], 
+  cclist: 0,
+  for o in operators do (
+    if o = I then tmp: coeff(cc, I) else tmp: factor(coeff(cc, o)),
+    cclist: gforce(tmp) * o + cclist),
+  cclist
+)$
+
+get_e(cc) := bothcoef(finalc(cc), I)[1] * I$
+get_a(cc) := bothcoef(finalc(cc), I)[2]$
+
+/* chiral-chiral */
+
+/* ansatz */
+Q_il: K_g_il_i * (z11 * psi1 + z12 * psi2) + S_g_il_i * (z13 * psi3 + z14 * psi4)$
+Q_ir: K_g_ir_i * (z21 * psi1 + z22 * psi2) + S_g_ir_i * (z23 * psi3 + z24 * psi4)$
+Q_el: K_g_el_e * (z31 * psi1 + z32 * psi2) + S_g_el_e * (z33 * psi3 + z34 * psi4)$
+Q_er: K_g_er_e * (z41 * psi1 + z42 * psi2) + S_g_er_e * (z43 * psi3 + z44 * psi4)$
+
+/* trace relations */
+Q_il_nu: subst([S_g_il_i=Ks_g_il + I, K_g_il_i=T_g_il], Q_il)$
+Q_ir_nu: subst([S_g_ir_i=Ks_g_ir + I, K_g_ir_i=T_g_ir], Q_ir)$
+Q_el_nu: subst([S_g_el_e=Ks_g_el - I, K_g_el_e=T_g_el], Q_el)$
+Q_er_nu: subst([S_g_er_e=Ks_g_er - I, K_g_er_e=T_g_er], Q_er)$
+Q_il_n: subst([K_g_il_i=K_g_il - I, S_g_il_i=S_g_il], Q_il)$
+Q_ir_n: subst([K_g_ir_i=K_g_ir - I, S_g_ir_i=S_g_ir], Q_ir)$
+Q_el_n: subst([K_g_el_e=K_g_el + I, S_g_el_e=S_g_el], Q_el)$
+Q_er_n: subst([K_g_er_e=K_g_er + I, S_g_er_e=S_g_er], Q_er)$
+
+/* v = \nu\times E_in, v1 = v[3], v0 = v[1:2] 
+   w = \nu\times H_in, w1 = w[3], w0 = w[1:2] */
+
+/*
+E3_i_nu: 1/2 * (Q_ir_nu + Q_il_nu)$ 
+E3_e_nu: 1/2 * (Q_er_nu + Q_el_nu)$
+H3_i_nu: %i / 2 * (Q_ir_nu - Q_il_nu)$
+H3_e_nu: %i / 2 * (Q_er_nu - Q_el_nu)$
+E3_i_n: 1/2 * (Q_ir_n + Q_il_n)$ 
+E3_e_n: 1/2 * (Q_er_n + Q_el_n)$
+H3_i_n: %i / 2 * (Q_ir_n - Q_il_n)$
+H3_e_n: %i / 2 * (Q_er_n - Q_el_n)$
+
+eq1: v0 = delta * E3_i_n - E3_e_n$
+eq2: w0 = rho * H3_i_n - H3_e_n$
+eq3: v1 = delta * (beta_i * E3_i_nu - %i / k_i * H3_i_nu) - (beta_e * E3_e_nu - %i / k_e * H3_e_nu)$ 
+eq4: w1 = rho * (beta_i * H3_i_nu + %i / k_i * E3_i_nu) - (beta_e * H3_e_nu + %i / k_e * E3_e_nu)$ 
+*/
+
+/* transmission boundary conditions in Q_ij */
+eq1: v0 = delta / 2 * (Q_ir_n + Q_il_n) - 1 / 2 * (Q_er_n + Q_el_n)$
+eq2: w0 = %i * rho / 2 * (Q_ir_n - Q_il_n) - %i / 2 * (Q_er_n - Q_el_n)$ 
+eq3: v1 = delta / 2 * (1 / gamma_ir * Q_ir_nu - 1 / gamma_il * Q_il_nu) - 1 / 2 * (1 / gamma_er * Q_er_nu - 1 / gamma_el * Q_el_nu)$
+eq4: w1 = %i * rho / 2 * (1 / gamma_ir * Q_ir_nu + 1 / gamma_il * Q_il_nu) - %i / 2 * (1 / gamma_er * Q_er_nu + 1 / gamma_el * Q_el_nu)$
+
+/* generate u for testing*/
+
+Q_ir_n0: c_ir * J0_ir$
+Q_il_n0: c_il * J0_il$
+Q_er_n0: c_er * H0_er$
+Q_el_n0: c_el * H0_el$
+Q_ir_nu0: -c_ir * gamma_ir * J1_ir * d_nu$
+Q_il_nu0: -c_il * gamma_il * J1_il * d_nu$
+Q_er_nu0: -c_er * gamma_er * H1_er * d_nu$
+Q_el_nu0: -c_el * gamma_el * H1_el * d_nu$
+
+/*
+E3_i_nu0: 1/2 * (Q_ir_nu0 + Q_il_nu0)$ 
+E3_e_nu0: 1/2 * (Q_er_nu0 + Q_el_nu0)$
+H3_i_nu0: %i / 2 * (Q_ir_nu0 - Q_il_nu0)$
+H3_e_nu0: %i / 2 * (Q_er_nu0 - Q_el_nu0)$
+E3_i_n0: 1/2 * (Q_ir_n0 + Q_il_n0)$ 
+E3_e_n0: 1/2 * (Q_er_n0 + Q_el_n0)$
+H3_i_n0: %i / 2 * (Q_ir_n0 - Q_il_n0)$
+H3_e_n0: %i / 2 * (Q_er_n0 - Q_el_n0)$
+
+u1: 2*(delta * E3_i_n0 - E3_e_n0)$
+u2: 2*(rho * H3_i_n0 - H3_e_n0)$
+u3: 2*(delta * (beta_i * E3_i_nu0 - %i / k_i * H3_i_nu0) - (beta_e * E3_e_nu0 - %i / k_e * H3_e_nu0))$ 
+u4: 2*(rho * (beta_i * H3_i_nu0 + %i / k_i * E3_i_nu0) - (beta_e * H3_e_nu0 + %i / k_e * E3_e_nu0))$ 
+*/
+
+u1: 2 * (delta / 2 * (Q_ir_n0 + Q_il_n0) - 1 / 2 * (Q_er_n0 + Q_el_n0))$
+u2: 2 * (%i * rho / 2 * (Q_ir_n0 - Q_il_n0) - %i / 2 * (Q_er_n0 - Q_el_n0))$ 
+u3: 2 * (delta / 2 * (1 / gamma_ir * Q_ir_nu0 - 1 / gamma_il * Q_il_nu0) - 1 / 2 * (1 / gamma_er * Q_er_nu0 - 1 / gamma_el * Q_el_nu0))$
+u4: 2 * (%i * rho / 2 * (1 / gamma_ir * Q_ir_nu0 + 1 / gamma_il * Q_il_nu0) - %i / 2 * (1 / gamma_er * Q_er_nu0 + 1 / gamma_el * Q_el_nu0))$
+
+c11: coeff(expand(rhs(eq1)), psi1)$
+c12: coeff(expand(rhs(eq1)), psi2)$
+c13: coeff(expand(rhs(eq1)), psi3)$
+c14: coeff(expand(rhs(eq1)), psi4)$
+
+c21: coeff(expand(rhs(eq2)), psi1)$
+c22: coeff(expand(rhs(eq2)), psi2)$
+c23: coeff(expand(rhs(eq2)), psi3)$
+c24: coeff(expand(rhs(eq2)), psi4)$
+
+c31: coeff(expand(rhs(eq3)), psi1)$
+c32: coeff(expand(rhs(eq3)), psi2)$
+c33: coeff(expand(rhs(eq3)), psi3)$
+c34: coeff(expand(rhs(eq3)), psi4)$
+
+c41: coeff(expand(rhs(eq4)), psi1)$
+c42: coeff(expand(rhs(eq4)), psi2)$
+c43: coeff(expand(rhs(eq4)), psi3)$
+c44: coeff(expand(rhs(eq4)), psi4)$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_rawc_chiral_chiral", finalc(c11), finalc(c12), finalc(c13), finalc(c14), finalc(c21), finalc(c22), finalc(c23), finalc(c24), finalc(c31), finalc(c32), finalc(c33), finalc(c34), finalc(c41), finalc(c42), finalc(c43), finalc(c44));
+
+e11: coeff(c11, T_g_ir) + coeff(c11, T_g_il) + coeff(c11, T_g_er) + coeff(c11, T_g_el) = 0$
+e12: coeff(c12, T_g_ir) + coeff(c12, T_g_il) + coeff(c12, T_g_er) + coeff(c12, T_g_el) = 0$
+e13: coeff(c13, T_g_ir) + coeff(c13, T_g_il) + coeff(c13, T_g_er) + coeff(c14, T_g_el) = 0$
+e14: coeff(c14, T_g_ir) + coeff(c14, T_g_il) + coeff(c14, T_g_er) + coeff(c14, T_g_el) = 0$
+
+e21: coeff(c21, T_g_ir) + coeff(c21, T_g_il) + coeff(c21, T_g_er) + coeff(c21, T_g_el) = 0$
+e22: coeff(c22, T_g_ir) + coeff(c22, T_g_il) + coeff(c22, T_g_er) + coeff(c22, T_g_el) = 0$
+e23: coeff(c23, T_g_ir) + coeff(c23, T_g_il) + coeff(c23, T_g_er) + coeff(c23, T_g_el) = 0$
+e24: coeff(c24, T_g_ir) + coeff(c24, T_g_il) + coeff(c24, T_g_er) + coeff(c24, T_g_el) = 0$
+
+e31: coeff(c31, T_g_ir) + coeff(c31, T_g_il) + coeff(c31, T_g_er) + coeff(c31, T_g_el) = 0$
+e32: coeff(c32, T_g_ir) + coeff(c32, T_g_il) + coeff(c32, T_g_er) + coeff(c32, T_g_el) = 0$
+e33: coeff(c33, T_g_ir) + coeff(c33, T_g_il) + coeff(c33, T_g_er) + coeff(c33, T_g_el) = 0$
+e34: coeff(c34, T_g_ir) + coeff(c34, T_g_il) + coeff(c34, T_g_er) + coeff(c34, T_g_el) = 0$
+
+e41: coeff(c41, T_g_ir) + coeff(c41, T_g_il) + coeff(c41, T_g_er) + coeff(c41, T_g_el) = 0$
+e42: coeff(c42, T_g_ir) + coeff(c42, T_g_il) + coeff(c42, T_g_er) + coeff(c42, T_g_el) = 0$
+e43: coeff(c43, T_g_ir) + coeff(c43, T_g_il) + coeff(c43, T_g_er) + coeff(c43, T_g_el) = 0$
+e44: coeff(c44, T_g_ir) + coeff(c44, T_g_il) + coeff(c44, T_g_er) + coeff(c44, T_g_el) = 0$
+
+sl: flatten(solve(flatten(makelist(makelist(concat(e, j, i), i, 4), j, 4)), 
+      flatten(makelist(makelist(concat(z, j, i), i, 4), j, 4))))$
+
+ss: factor(subst([%r7=2*gamma_il, %r8=0, %r3=1, %r4=0, %r12=0, %r11=2*gamma_ir, %r10=0, %r9=1, %r6=1, %r5=0, %r2=0, %r1=1], sl))$
+
+c11: subst(ss, c11)$ 
+c12: subst(ss, c12)$
+c13: subst(ss, c13)$
+c14: subst(ss, c14)$
+c21: subst(ss, c21)$
+c22: subst(ss, c22)$
+c23: subst(ss, c23)$
+c24: subst(ss, c24)$
+c31: subst(ss, c31)$
+c32: subst(ss, c32)$
+c33: subst(ss, c33)$
+c34: subst(ss, c34)$
+c41: subst(ss, c41)$
+c42: subst(ss, c42)$
+c43: subst(ss, c43)$
+c44: subst(ss, c44)$ 
+
+/* output for further processing */
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_c_chiral_chiral", finalc(c11), finalc(c12), finalc(c13), finalc(c14), map(factor, finalc(c21)), map(factor, finalc(c22)), finalc(c23), finalc(c24), finalc(c31), finalc(c32), finalc(c33), finalc(c34), finalc(c41), finalc(c42), finalc(c43), finalc(c44));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_q_chiral_chiral", subst(ss, Q_er), subst(ss, Q_el)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_e_chiral_chiral", get_e(c11), get_e(c12), get_e(c13), get_e(c14), get_e(c21), get_e(c22), get_e(c23), get_e(c24), get_e(c31), get_e(c32), get_e(c33), get_e(c34), get_e(c41), get_e(c42), get_e(c43), get_e(c44)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_a_chiral_chiral", get_a(c11), get_a(c12), get_a(c13), get_a(c14), get_a(c21), get_a(c22), get_a(c23), get_a(c24), get_a(c31), get_a(c32), get_a(c33), get_a(c34), get_a(c41), get_a(c42), get_a(c43), get_a(c44)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_u_chiral_chiral", factor(u1), factor(u2), factor(u3), factor(u4)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_eq_chiral_chiral", e11, e12, e13, e14, e21, e22, e23, e24, e31, e32, e33, e34, e41, e42, e43, e44);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_bv_chiral_chiral", eq1, eq2, eq3, eq4);
+
+det: determinant(subst([I=1], matrix([get_e(c11), get_e(c12), get_e(c13), get_e(c14)], [get_e(c21), get_e(c22), get_e(c23), get_e(c24)], [get_e(c31), get_e(c32), get_e(c33), get_e(c34)], [get_e(c41), get_e(c42), get_e(c43), get_e(c44)])))$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_det_chiral_chiral", factor(det));
+
+/* achiral-chiral */
+
+Q_il: K_g_il_i * (z11 * psi1 + z12 * psi2) + S_g_il_i * (z13 * psi3 + z14 * psi4)$
+Q_ir: K_g_ir_i * (z21 * psi1 + z22 * psi2) + S_g_ir_i * (z23 * psi3 + z24 * psi4)$
+Q_el: K_e_e * (z31 * psi1 + z32 * psi2) + S_e_e * (z33 * psi3 + z34 * psi4)$
+Q_er: K_e_e * (z41 * psi1 + z42 * psi2) + S_e_e * (z43 * psi3 + z44 * psi4)$
+
+Q_il_nu: subst([S_g_il_i=Ks_g_il + I, K_g_il_i=T_g_il], Q_il)$
+Q_ir_nu: subst([S_g_ir_i=Ks_g_ir + I, K_g_ir_i=T_g_ir], Q_ir)$
+Q_el_nu: subst([S_e_e=Ks_e - I, K_e_e=T_e], Q_el)$
+Q_er_nu: subst([S_e_e=Ks_e - I, K_e_e=T_e], Q_er)$
+Q_il_n: subst([K_g_il_i=K_g_il - I, S_g_il_i=S_g_il], Q_il)$
+Q_ir_n: subst([K_g_ir_i=K_g_ir - I, S_g_ir_i=S_g_ir], Q_ir)$
+Q_el_n: subst([K_e_e=K_e + I, S_e_e=S_e], Q_el)$
+Q_er_n: subst([K_e_e=K_e + I, S_e_e=S_e], Q_er)$
+
+beta_e: 0$
+gamma_er: k_e$
+gamma_el: k_e$
+
+/* v = \nu\times E_in, v1 = v[3], v0 = v[1:2] 
+   w = \nu\times H_in, w1 = w[3], w0 = w[1:2] */
+
+/*
+E3_i_nu: 1/2 * (Q_ir_nu + Q_il_nu)$ 
+H3_i_nu: %i / 2 * (Q_ir_nu - Q_il_nu)$
+E3_e_nu: 1/2 * (Q_er_nu + Q_el_nu)$
+H3_e_nu: %i / 2 * (Q_er_nu - Q_el_nu)$
+E3_i_n: 1/2 * (Q_ir_n + Q_il_n)$ 
+H3_i_n: %i / 2 * (Q_ir_n - Q_il_n)$
+E3_e_n: 1/ 2 * (Q_er_n + Q_el_n)$
+H3_e_n: %i / 2 * (Q_er_n - Q_el_n)$
+
+eq1: v0 = delta * E3_i_n - E3_e_n$
+eq2: w0 = rho * H3_i_n - H3_e_n$
+eq3: v1 = delta * (beta_i * E3_i_nu - %i / k_i * H3_i_nu) - (beta_e * E3_e_nu - %i / k_e * H3_e_nu)$ 
+eq4: w1 = rho * (beta_i * H3_i_nu + %i / k_i * E3_i_nu) - (beta_e * H3_e_nu + %i / k_e * E3_e_nu)$ 
+*/
+
+eq1: v0 = delta / 2 * (Q_ir_n + Q_il_n) - 1 / 2 * (Q_er_n + Q_el_n)$
+eq2: w0 = %i * rho / 2 * (Q_ir_n - Q_il_n) - %i / 2 * (Q_er_n - Q_el_n)$ 
+eq3: v1 = delta / 2 * (1 / gamma_ir * Q_ir_nu - 1 / gamma_il * Q_il_nu) - 1 / 2 * (1 / gamma_er * Q_er_nu - 1 / gamma_el * Q_el_nu)$
+eq4: w1 = %i * rho / 2 * (1 / gamma_ir * Q_ir_nu + 1 / gamma_il * Q_il_nu) - %i / 2 * (1 / gamma_er * Q_er_nu + 1 / gamma_el * Q_el_nu)$
+
+/* quick and dirty way to generate u for computations*/
+
+Q_ir_n0: c_ir * J0_ir$
+Q_il_n0: c_il * J0_il$
+Q_er_n0: c_er * H0_e$
+Q_el_n0: c_el * H0_e$
+Q_ir_nu0: -c_ir * gamma_ir * J1_ir * d_nu$
+Q_il_nu0: -c_il * gamma_il * J1_il * d_nu$
+Q_er_nu0: -c_er * k_e * H1_e * d_nu$
+Q_el_nu0: -c_el * k_e * H1_e * d_nu$
+
+/*
+E3_i_nu0: 1/2 * (Q_ir_nu0 + Q_il_nu0)$ 
+E3_e_nu0: 1/2 * (Q_er_nu0 + Q_el_nu0)$
+H3_i_nu0: %i / 2 * (Q_ir_nu0 - Q_il_nu0)$
+H3_e_nu0: %i / 2 * (Q_er_nu0 - Q_el_nu0)$
+E3_i_n0: 1/2 * (Q_ir_n0 + Q_il_n0)$ 
+E3_e_n0: 1/2 * (Q_er_n0 + Q_el_n0)$
+H3_i_n0: %i / 2 * (Q_ir_n0 - Q_il_n0)$
+H3_e_n0: %i / 2 * (Q_er_n0 - Q_el_n0)$
+
+u1: 2*(delta * E3_i_n0 - E3_e_n0)$
+u2: 2*(rho * H3_i_n0 - H3_e_n0)$
+u3: 2*(delta * (beta_i * E3_i_nu0 - %i / k_i * H3_i_nu0) - (beta_e * E3_e_nu0 - %i / k_e * H3_e_nu0))$ 
+u4: 2*(rho * (beta_i * H3_i_nu0 + %i / k_i * E3_i_nu0) - (beta_e * H3_e_nu0 + %i / k_e * E3_e_nu0))$ 
+*/
+
+u1: 2 * (delta / 2 * (Q_ir_n0 + Q_il_n0) - 1 / 2 * (Q_er_n0 + Q_el_n0))$
+u2: 2 * (%i * rho / 2 * (Q_ir_n0 - Q_il_n0) - %i / 2 * (Q_er_n0 - Q_el_n0))$ 
+u3: 2 * (delta / 2 * (1 / gamma_ir * Q_ir_nu0 - 1 / gamma_il * Q_il_nu0) - 1 / 2 * (1 / gamma_er * Q_er_nu0 - 1 / gamma_el * Q_el_nu0))$
+u4: 2 * (%i * rho / 2 * (1 / gamma_ir * Q_ir_nu0 + 1 / gamma_il * Q_il_nu0) - %i / 2 * (1 / gamma_er * Q_er_nu0 + 1 / gamma_el * Q_el_nu0))$
+
+/*
+for i:1 thru 4 do
+  for j:1 thru 4 do
+    concat(c, i, j) :: coeff(expand(rhs(concat(eq, i))), concat(psi, j))$
+
+for i:1 thru 4 do
+  for j:1 thru 4 do
+    concat(e, i, j) :: coeff(c21, T_g_ir) + coeff(c21, T_g_il) + coeff(c21, T_g_er) + coeff(c21, T_g_el) = 0$
+*/
+
+c11: coeff(expand(rhs(eq1)), psi1)$
+c12: coeff(expand(rhs(eq1)), psi2)$
+c13: coeff(expand(rhs(eq1)), psi3)$
+c14: coeff(expand(rhs(eq1)), psi4)$
+
+c21: coeff(expand(rhs(eq2)), psi1)$
+c22: coeff(expand(rhs(eq2)), psi2)$
+c23: coeff(expand(rhs(eq2)), psi3)$
+c24: coeff(expand(rhs(eq2)), psi4)$
+
+c31: coeff(expand(rhs(eq3)), psi1)$
+c32: coeff(expand(rhs(eq3)), psi2)$
+c33: coeff(expand(rhs(eq3)), psi3)$
+c34: coeff(expand(rhs(eq3)), psi4)$
+
+c41: coeff(expand(rhs(eq4)), psi1)$
+c42: coeff(expand(rhs(eq4)), psi2)$
+c43: coeff(expand(rhs(eq4)), psi3)$
+c44: coeff(expand(rhs(eq4)), psi4)$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_rawc_achiral_chiral", finalc(c11), finalc(c12), finalc(c13), finalc(c14), finalc(c21), finalc(c22), finalc(c23), finalc(c24), finalc(c31), finalc(c32), finalc(c33), finalc(c34), finalc(c41), finalc(c42), finalc(c43), finalc(c44));
+
+e11: coeff(c11, T_g_ir) + coeff(c11, T_g_il) + coeff(c11, T_e) = 0$
+e12: coeff(c12, T_g_ir) + coeff(c12, T_g_il) + coeff(c12, T_e) = 0$
+e13: coeff(c13, T_g_ir) + coeff(c13, T_g_il) + coeff(c13, T_e) = 0$
+e14: coeff(c14, T_g_ir) + coeff(c14, T_g_il) + coeff(c14, T_e) = 0$
+e21: coeff(c21, T_g_ir) + coeff(c21, T_g_il) + coeff(c21, T_e) = 0$
+e22: coeff(c22, T_g_ir) + coeff(c22, T_g_il) + coeff(c22, T_e) = 0$
+e23: coeff(c23, T_g_ir) + coeff(c23, T_g_il) + coeff(c23, T_e) = 0$
+e24: coeff(c24, T_g_ir) + coeff(c24, T_g_il) + coeff(c24, T_e) = 0$
+e31: coeff(c31, T_g_ir) + coeff(c31, T_g_il) + coeff(c31, T_e) = 0$
+e32: coeff(c32, T_g_ir) + coeff(c32, T_g_il) + coeff(c32, T_e) = 0$
+e33: coeff(c33, T_g_ir) + coeff(c33, T_g_il) + coeff(c33, T_e) = 0$
+e34: coeff(c34, T_g_ir) + coeff(c34, T_g_il) + coeff(c34, T_e) = 0$
+e41: coeff(c41, T_g_ir) + coeff(c41, T_g_il) + coeff(c41, T_e) = 0$
+e42: coeff(c42, T_g_ir) + coeff(c42, T_g_il) + coeff(c42, T_e) = 0$
+e43: coeff(c43, T_g_ir) + coeff(c43, T_g_il) + coeff(c43, T_e) = 0$
+e44: coeff(c44, T_g_ir) + coeff(c44, T_g_il) + coeff(c44, T_e) = 0$
+
+sl: flatten(solve(flatten(makelist(makelist(concat(e, j, i), i, 4), j, 4)), 
+      flatten(makelist(makelist(concat(z, j, i), i, 4), j, 4))))$
+
+/*
+ss: ratsimp(subst([%r7=1, %r8=2*gamma_il, %r3=1, %r4=0, %r12=2*gamma_ir, %r11=0, %r10=0, %r9=1, %r6=1, %r5=0, %r2=0, %r1=1], sl))$
+
+ss: [z11=0, z12=2*gamma_il, z13=1, z14=0, z21=2*gamma_ir, z22=0, z23=0, z24=1, z31=(rho-delta)*k_e, z32=(rho+delta)*k_e, z33=1, z34=0, z41=(rho+delta)*k_e, z42=(rho-delta)*k_e, z43=0, z44=1];
+*/
+
+ss: factor(subst([%r7=2*gamma_il, %r8=0, %r3=1, %r4=0, %r12=0, %r11=2*gamma_ir, %r10=0, %r9=1, %r6=1, %r5=0, %r2=0, %r1=1], sl))$
+
+c11: subst(ss, c11)$ 
+c12: subst(ss, c12)$
+c13: subst(ss, c13)$
+c14: subst(ss, c14)$
+c21: subst(ss, c21)$
+c22: subst(ss, c22)$
+c23: subst(ss, c23)$
+c24: subst(ss, c24)$
+c31: subst(ss, c31)$
+c32: subst(ss, c32)$
+c33: subst(ss, c33)$
+c34: subst(ss, c34)$
+c41: subst(ss, c41)$
+c42: subst(ss, c42)$
+c43: subst(ss, c43)$
+c44: subst(ss, c44)$ 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_c_achiral_chiral", finalc(c11), finalc(c12), finalc(c13), finalc(c14), map(factor, finalc(c21)), map(factor, finalc(c22)), finalc(c23), finalc(c24), finalc(c31), finalc(c32), finalc(c33), finalc(c34), finalc(c41), finalc(c42), finalc(c43), finalc(c44));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_q_achiral_chiral", subst(ss, Q_er), subst(ss, Q_el)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_e_achiral_chiral", get_e(c11), get_e(c12), get_e(c13), get_e(c14), get_e(c21), get_e(c22), get_e(c23), get_e(c24), get_e(c31), get_e(c32), get_e(c33), get_e(c34), get_e(c41), get_e(c42), get_e(c43), get_e(c44)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_a_achiral_chiral", get_a(c11), get_a(c12), get_a(c13), get_a(c14), get_a(c21), get_a(c22), get_a(c23), get_a(c24), get_a(c31), get_a(c32), get_a(c33), get_a(c34), get_a(c41), get_a(c42), get_a(c43), get_a(c44)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_u_achiral_chiral", factor(u1), factor(u2), factor(u3), factor(u4)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_eq_achiral_chiral", e11, e12, e13, e14, e21, e22, e23, e24, e31, e32, e33, e34, e41, e42, e43, e44);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_bv_achiral_chiral", eq1, eq2, eq3, eq4);
+
+det: determinant(subst([I=1], matrix([get_e(c11), get_e(c12), get_e(c13), get_e(c14)], [get_e(c21), get_e(c22), get_e(c23), get_e(c24)], [get_e(c31), get_e(c32), get_e(c33), get_e(c34)], [get_e(c41), get_e(c42), get_e(c43), get_e(c44)])))$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_det_achiral_chiral", factor(det));
+
+/* chiral-achiral */
+
+Q_il: K_i_i * (z11 * psi1 + z12 * psi2) + S_i_i * (z13 * psi3 + z14 * psi4)$
+Q_ir: K_i_i * (z21 * psi1 + z22 * psi2) + S_i_i * (z23 * psi3 + z24 * psi4)$
+
+Q_el: K_g_el_e * (z31 * psi1 + z32 * psi2) + S_g_el_e * (z33 * psi3 + z34 * psi4)$
+Q_er: K_g_er_e * (z41 * psi1 + z42 * psi2) + S_g_er_e * (z43 * psi3 + z44 * psi4)$
+
+Q_il_nu: subst([S_i_i=Ks_i + I, K_i_i=T_i], Q_il)$
+Q_ir_nu: subst([S_i_i=Ks_i + I, K_i_i=T_i], Q_ir)$
+Q_el_nu: subst([S_g_el_e=Ks_g_el - I, K_g_el_e=T_g_el], Q_el)$
+Q_er_nu: subst([S_g_er_e=Ks_g_er - I, K_g_er_e=T_g_er], Q_er)$
+Q_il_n: subst([K_i_i=K_i - I, S_i_i=S_i], Q_il)$
+Q_ir_n: subst([K_i_i=K_i - I, S_i_i=S_i], Q_ir)$
+Q_el_n: subst([K_g_el_e=K_g_el + I, S_g_el_e=S_g_el], Q_el)$
+Q_er_n: subst([K_g_er_e=K_g_er + I, S_g_er_e=S_g_er], Q_er)$
+
+beta_i: 0$
+gamma_il: k_i$
+gamma_ir: k_i$
+
+/* v = \nu\times E_in, v1 = v[3], v0 = v[1:2] 
+   w = \nu\times H_in, w1 = w[3], w0 = w[1:2] */
+
+/*
+E3_i_nu: 1/2 * (Q_ir_nu + Q_il_nu)$ 
+E3_e_nu: 1/2 * (Q_er_nu + Q_el_nu)$
+H3_i_nu: %i / 2 * (Q_ir_nu - Q_il_nu)$
+H3_e_nu: %i / 2 * (Q_er_nu - Q_el_nu)$
+E3_i_n: 1/2 * (Q_ir_n + Q_il_n)$ 
+E3_e_n: 1/2 * (Q_er_n + Q_el_n)$
+H3_i_n: %i / 2 * (Q_ir_n - Q_il_n)$
+H3_e_n: %i / 2 * (Q_er_n - Q_el_n)$
+
+eq1: v0 = delta * E3_i_n - E3_e_n$
+eq2: w0 = rho * H3_i_n - H3_e_n$
+eq3: v1 = delta * (beta_i * E3_i_nu - %i / k_i * H3_i_nu) - (beta_e * E3_e_nu - %i / k_e * H3_e_nu)$ 
+eq4: w1 = rho * (beta_i * H3_i_nu + %i / k_i * E3_i_nu) - (beta_e * H3_e_nu + %i / k_e * E3_e_nu)$ 
+*/
+
+eq1: v0 = delta / 2 * (Q_ir_n + Q_il_n) - 1 / 2 * (Q_er_n + Q_el_n)$
+eq2: w0 = %i * rho / 2 * (Q_ir_n - Q_il_n) - %i / 2 * (Q_er_n - Q_el_n)$ 
+eq3: v1 = delta / 2 * (1 / gamma_ir * Q_ir_nu - 1 / gamma_il * Q_il_nu) - 1 / 2 * (1 / gamma_er * Q_er_nu - 1 / gamma_el * Q_el_nu)$
+eq4: w1 = %i * rho / 2 * (1 / gamma_ir * Q_ir_nu + 1 / gamma_il * Q_il_nu) - %i / 2 * (1 / gamma_er * Q_er_nu + 1 / gamma_el * Q_el_nu)$
+
+/* quick and dirty way to generate u for computations */
+
+Q_ir_n0: c_ir * J0_i$
+Q_il_n0: c_il * J0_i$
+Q_er_n0: c_er * H0_er$
+Q_el_n0: c_el * H0_el$
+Q_ir_nu0: -c_ir * k_i * J1_i * d_nu$
+Q_il_nu0: -c_il * k_i * J1_i * d_nu$
+Q_er_nu0: -c_er * gamma_er * H1_er * d_nu$
+Q_el_nu0: -c_el * gamma_el * H1_el * d_nu$
+
+/*
+E3_i_nu0: 1/2 * (Q_ir_nu0 + Q_il_nu0)$ 
+E3_e_nu0: 1/2 * (Q_er_nu0 + Q_el_nu0)$
+H3_i_nu0: %i / 2 * (Q_ir_nu0 - Q_il_nu0)$
+H3_e_nu0: %i / 2 * (Q_er_nu0 - Q_el_nu0)$
+E3_i_n0: 1/2 * (Q_ir_n0 + Q_il_n0)$ 
+E3_e_n0: 1/2 * (Q_er_n0 + Q_el_n0)$
+H3_i_n0: %i / 2 * (Q_ir_n0 - Q_il_n0)$
+H3_e_n0: %i / 2 * (Q_er_n0 - Q_el_n0)$
+
+u1: 2*(delta * E3_i_n0 - E3_e_n0)$
+u2: 2*(rho * H3_i_n0 - H3_e_n0)$
+u3: 2*(delta * (beta_i * E3_i_nu0 - %i / k_i * H3_i_nu0) - (beta_e * E3_e_nu0 - %i / k_e * H3_e_nu0))$ 
+u4: 2*(rho * (beta_i * H3_i_nu0 + %i / k_i * E3_i_nu0) - (beta_e * H3_e_nu0 + %i / k_e * E3_e_nu0))$ 
+*/
+
+u1: 2 * (delta / 2 * (Q_ir_n0 + Q_il_n0) - 1 / 2 * (Q_er_n0 + Q_el_n0))$
+u2: 2 * (%i * rho / 2 * (Q_ir_n0 - Q_il_n0) - %i / 2 * (Q_er_n0 - Q_el_n0))$ 
+u3: 2 * (delta / 2 * (1 / gamma_ir * Q_ir_nu0 - 1 / gamma_il * Q_il_nu0) - 1 / 2 * (1 / gamma_er * Q_er_nu0 - 1 / gamma_el * Q_el_nu0))$
+u4: 2 * (%i * rho / 2 * (1 / gamma_ir * Q_ir_nu0 + 1 / gamma_il * Q_il_nu0) - %i / 2 * (1 / gamma_er * Q_er_nu0 + 1 / gamma_el * Q_el_nu0))$
+
+c11: coeff(expand(rhs(eq1)), psi1)$
+c12: coeff(expand(rhs(eq1)), psi2)$
+c13: coeff(expand(rhs(eq1)), psi3)$
+c14: coeff(expand(rhs(eq1)), psi4)$
+
+c21: coeff(expand(rhs(eq2)), psi1)$
+c22: coeff(expand(rhs(eq2)), psi2)$
+c23: coeff(expand(rhs(eq2)), psi3)$
+c24: coeff(expand(rhs(eq2)), psi4)$
+
+c31: coeff(expand(rhs(eq3)), psi1)$
+c32: coeff(expand(rhs(eq3)), psi2)$
+c33: coeff(expand(rhs(eq3)), psi3)$
+c34: coeff(expand(rhs(eq3)), psi4)$
+
+c41: coeff(expand(rhs(eq4)), psi1)$
+c42: coeff(expand(rhs(eq4)), psi2)$
+c43: coeff(expand(rhs(eq4)), psi3)$
+c44: coeff(expand(rhs(eq4)), psi4)$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_rawc_chiral_achiral", finalc(c11), finalc(c12), finalc(c13), finalc(c14), finalc(c21), finalc(c22), finalc(c23), finalc(c24), finalc(c31), finalc(c32), finalc(c33), finalc(c34), finalc(c41), finalc(c42), finalc(c43), finalc(c44));
+
+e11: coeff(c11, T_i) + coeff(c11, T_g_er) + coeff(c11, T_g_el) = 0$
+e12: coeff(c12, T_i) + coeff(c12, T_g_er) + coeff(c12, T_g_el) = 0$
+e13: coeff(c13, T_i) + coeff(c13, T_g_er) + coeff(c14, T_g_el) = 0$
+e14: coeff(c14, T_i) + coeff(c14, T_g_er) + coeff(c14, T_g_el) = 0$
+e21: coeff(c21, T_i) + coeff(c21, T_g_er) + coeff(c21, T_g_el) = 0$
+e22: coeff(c22, T_i) + coeff(c22, T_g_er) + coeff(c22, T_g_el) = 0$
+e23: coeff(c23, T_i) + coeff(c23, T_g_er) + coeff(c23, T_g_el) = 0$
+e24: coeff(c24, T_i) + coeff(c24, T_g_er) + coeff(c24, T_g_el) = 0$
+e31: coeff(c31, T_i) + coeff(c31, T_g_er) + coeff(c31, T_g_el) = 0$
+e32: coeff(c32, T_i) + coeff(c32, T_g_er) + coeff(c32, T_g_el) = 0$
+e33: coeff(c33, T_i) + coeff(c33, T_g_er) + coeff(c33, T_g_el) = 0$
+e34: coeff(c34, T_i) + coeff(c34, T_g_er) + coeff(c34, T_g_el) = 0$
+e41: coeff(c41, T_i) + coeff(c41, T_g_er) + coeff(c41, T_g_el) = 0$
+e42: coeff(c42, T_i) + coeff(c42, T_g_er) + coeff(c42, T_g_el) = 0$
+e43: coeff(c43, T_i) + coeff(c43, T_g_er) + coeff(c43, T_g_el) = 0$
+e44: coeff(c44, T_i) + coeff(c44, T_g_er) + coeff(c44, T_g_el) = 0$
+
+sl: flatten(solve(flatten(makelist(makelist(concat(e, j, i), i, 4), j, 4)), 
+      flatten(makelist(makelist(concat(z, j, i), i, 4), j, 4))))$
+
+ss: factor(subst([%r7=2*k_i, %r8=0, %r3=1, %r4=0, %r12=0, %r11=2*k_i, %r10=0, %r9=1, %r6=1, %r5=0, %r2=0, %r1=1], sl))$
+
+/*
+ss: ratsimp(subst([%r4=0, %r8=2*rho*delta*gamma_el, %r3=0, %r7=2*rho*delta*gamma_el, %r12=0, %r11=1, %r10=0, %r9=1, %r8=1, %r6=1, %r5=0, %r2=0, %r3=1, %r1=1], sl))$
+
+ss: [z11=k_i*(delta+rho), z12=k_i*(delta+rho), z13=1, z14=0, z21=k_i*(delta-rho), z22=k_i*(delta-rho), z23=0, z24=1, z31=2*gamma_el, z32=0, z33=1, z34=0, z41=0, z42=2*gamma_er, z43=0, z44=1];
+*/
+
+c11: subst(ss, c11)$ 
+c12: subst(ss, c12)$
+c13: subst(ss, c13)$
+c14: subst(ss, c14)$
+c21: subst(ss, c21)$
+c22: subst(ss, c22)$
+c23: subst(ss, c23)$
+c24: subst(ss, c24)$
+c31: subst(ss, c31)$
+c32: subst(ss, c32)$
+c33: subst(ss, c33)$
+c34: subst(ss, c34)$
+c41: subst(ss, c41)$
+c42: subst(ss, c42)$
+c43: subst(ss, c43)$
+c44: subst(ss, c44)$ 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_c_chiral_achiral", finalc(c11), finalc(c12), finalc(c13), finalc(c14), map(factor, finalc(c21)), map(factor, finalc(c22)), finalc(c23), finalc(c24), finalc(c31), finalc(c32), finalc(c33), finalc(c34), finalc(c41), finalc(c42), finalc(c43), finalc(c44));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_q_chiral_achiral", subst(ss, Q_er), subst(ss, Q_el)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_e_chiral_achiral", get_e(c11), get_e(c12), get_e(c13), get_e(c14), get_e(c21), get_e(c22), get_e(c23), get_e(c24), get_e(c31), get_e(c32), get_e(c33), get_e(c34), get_e(c41), get_e(c42), get_e(c43), get_e(c44)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_a_chiral_achiral", get_a(c11), get_a(c12), get_a(c13), get_a(c14), get_a(c21), get_a(c22), get_a(c23), get_a(c24), get_a(c31), get_a(c32), get_a(c33), get_a(c34), get_a(c41), get_a(c42), get_a(c43), get_a(c44)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_u_chiral_achiral", factor(u1), factor(u2), factor(u3), factor(u4)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_eq_chiral_achiral", e11, e12, e13, e14, e21, e22, e23, e24, e31, e32, e33, e34, e41, e42, e43, e44);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_bv_chiral_achiral", eq1, eq2, eq3, eq4);
+
+det: determinant(subst([I=1], matrix([get_e(c11), get_e(c12), get_e(c13), get_e(c14)], [get_e(c21), get_e(c22), get_e(c23), get_e(c24)], [get_e(c31), get_e(c32), get_e(c33), get_e(c34)], [get_e(c41), get_e(c42), get_e(c43), get_e(c44)])))$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_det_chiral_achiral", factor(det));
+
+/* chiral-perfect conductor */
+
+Q_il: 0$
+Q_ir: 0$
+
+Q_el: K_g_el_e * z11 * psi1 + S_g_el_e * z12 * psi2$
+Q_er: K_g_er_e * z21 * psi1 + S_g_er_e * z22 * psi2$
+
+Q_il_nu: subst([S_g_il_i=Ks_g_il + I, K_g_il_i=T_g_il], Q_il)$
+Q_ir_nu: subst([S_g_ir_i=Ks_g_ir + I, K_g_ir_i=T_g_ir], Q_ir)$
+Q_el_nu: subst([S_g_el_e=Ks_g_el - I, K_g_el_e=T_g_el], Q_el)$
+Q_er_nu: subst([S_g_er_e=Ks_g_er - I, K_g_er_e=T_g_er], Q_er)$
+Q_il_n: subst([K_g_il_i=K_g_il - I, S_g_il_i=S_g_il], Q_il)$
+Q_ir_n: subst([K_g_ir_i=K_g_ir - I, S_g_ir_i=S_g_ir], Q_ir)$
+Q_el_n: subst([K_g_el_e=K_g_el + I, S_g_el_e=S_g_el], Q_el)$
+Q_er_n: subst([K_g_er_e=K_g_er + I, S_g_er_e=S_g_er], Q_er)$
+
+/* v = \nu\times E_in, v1 = v[3], v0 = v[1:2] 
+   w = \nu\times H_in, w1 = w[3], w0 = w[1:2] */
+
+/*
+E3_i_nu: 1/2 * (Q_ir_nu + Q_il_nu)$ 
+E3_e_nu: 1/2 * (Q_er_nu + Q_el_nu)$
+H3_i_nu: %i / 2 * (Q_ir_nu - Q_il_nu)$
+H3_e_nu: %i / 2 * (Q_er_nu - Q_el_nu)$
+E3_i_n: 1/2 * (Q_ir_n + Q_il_n)$ 
+E3_e_n: 1/2 * (Q_er_n + Q_el_n)$
+H3_i_n: %i / 2 * (Q_ir_n - Q_il_n)$
+H3_e_n: %i / 2 * (Q_er_n - Q_el_n)$
+
+eq1: v0 = delta * E3_i_n - E3_e_n$
+eq2: w0 = rho * H3_i_n - H3_e_n$
+eq3: v1 = delta * (beta_i * E3_i_nu - %i / k_i * H3_i_nu) - (beta_e * E3_e_nu - %i / k_e * H3_e_nu)$ 
+eq4: w1 = rho * (beta_i * H3_i_nu + %i / k_i * E3_i_nu) - (beta_e * H3_e_nu + %i / k_e * E3_e_nu)$ 
+*/
+
+eq1: v0 = delta / 2 * (Q_ir_n + Q_il_n) - 1 / 2 * (Q_er_n + Q_el_n)$
+eq2: w0 = %i * rho / 2 * (Q_ir_n - Q_il_n) - %i / 2 * (Q_er_n - Q_el_n)$ 
+eq3: v1 = delta / 2 * (1 / gamma_ir * Q_ir_nu - 1 / gamma_il * Q_il_nu) - 1 / 2 * (1 / gamma_er * Q_er_nu - 1 / gamma_el * Q_el_nu)$
+eq4: w1 = %i * rho / 2 * (1 / gamma_ir * Q_ir_nu + 1 / gamma_il * Q_il_nu) - %i / 2 * (1 / gamma_er * Q_er_nu + 1 / gamma_el * Q_el_nu)$
+
+/* quick and dirty way to generate u for computations */
+
+Q_ir_n0: 0$
+Q_il_n0: 0$
+Q_er_n0: c_er * H0_er$
+Q_el_n0: c_el * H0_el$
+Q_ir_nu0: 0$
+Q_il_nu0: 0$
+Q_er_nu0: -c_er * gamma_er * H1_er * d_nu$
+Q_el_nu0: -c_el * gamma_el * H1_el * d_nu$
+
+/*
+E3_i_nu0: 1/2 * (Q_ir_nu0 + Q_il_nu0)$ 
+E3_e_nu0: 1/2 * (Q_er_nu0 + Q_el_nu0)$
+H3_i_nu0: %i / 2 * (Q_ir_nu0 - Q_il_nu0)$
+H3_e_nu0: %i / 2 * (Q_er_nu0 - Q_el_nu0)$
+E3_i_n0: 1/2 * (Q_ir_n0 + Q_il_n0)$ 
+E3_e_n0: 1/2 * (Q_er_n0 + Q_el_n0)$
+H3_i_n0: %i / 2 * (Q_ir_n0 - Q_il_n0)$
+H3_e_n0: %i / 2 * (Q_er_n0 - Q_el_n0)$
+
+u1: 2*(delta * E3_i_n0 - E3_e_n0)$
+u2: 2*(rho * H3_i_n0 - H3_e_n0)$
+u3: 2*(delta * (beta_i * E3_i_nu0 - %i / k_i * H3_i_nu0) - (beta_e * E3_e_nu0 - %i / k_e * H3_e_nu0))$ 
+u4: 2*(rho * (beta_i * H3_i_nu0 + %i / k_i * E3_i_nu0) - (beta_e * H3_e_nu0 + %i / k_e * E3_e_nu0))$ 
+*/
+
+u1: 2 * (delta / 2 * (Q_ir_n0 + Q_il_n0) - 1 / 2 * (Q_er_n0 + Q_el_n0))$
+u2: 2 * (%i * rho / 2 * (Q_ir_n0 - Q_il_n0) - %i / 2 * (Q_er_n0 - Q_el_n0))$ 
+u3: 2 * (delta / 2 * (1 / gamma_ir * Q_ir_nu0 - 1 / gamma_il * Q_il_nu0) - 1 / 2 * (1 / gamma_er * Q_er_nu0 - 1 / gamma_el * Q_el_nu0))$
+u4: 2 * (%i * rho / 2 * (1 / gamma_ir * Q_ir_nu0 + 1 / gamma_il * Q_il_nu0) - %i / 2 * (1 / gamma_er * Q_er_nu0 + 1 / gamma_el * Q_el_nu0))$
+
+c11: coeff(expand(rhs(eq2)), psi1)$
+c12: coeff(expand(rhs(eq2)), psi2)$
+c21: coeff(expand(rhs(eq4)), psi1)$
+c22: coeff(expand(rhs(eq4)), psi2)$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_rawc_chiral_conductor", finalc(c11), finalc(c12), finalc(c21), finalc(c22));
+
+e11: coeff(c11, T_g_ir) + coeff(c11, T_g_il) + coeff(c11, T_g_er) + coeff(c11, T_g_el) = 0$
+e12: coeff(c12, T_g_ir) + coeff(c12, T_g_il) + coeff(c12, T_g_er) + coeff(c12, T_g_el) = 0$
+
+e21: coeff(c21, T_g_ir) + coeff(c21, T_g_il) + coeff(c21, T_g_er) + coeff(c21, T_g_el) = 0$
+e22: coeff(c22, T_g_ir) + coeff(c22, T_g_il) + coeff(c22, T_g_er) + coeff(c22, T_g_el) = 0$
+
+sl: flatten(solve(flatten(makelist(makelist(concat(e, j, i), i, 2), j, 2)), 
+      flatten(makelist(makelist(concat(z, j, i), i, 2), j, 2))))$
+
+ss: ratsimp(subst([%r2=-gamma_er, %r3=1, %r1=1], sl))$
+
+c11: subst(ss, c11)$ 
+c12: subst(ss, c12)$
+c21: subst(ss, c21)$
+c22: subst(ss, c22)$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_c_chiral_conductor", finalc(c11), finalc(c12), finalc(c21), finalc(c22));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_q_chiral_conductor", subst(ss, Q_er), subst(ss, Q_el)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_a_chiral_conductor", get_a(c11), get_a(c12), get_a(c21), get_a(c22)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_e_chiral_conductor", get_e(c11), get_e(c12), get_e(c21), get_e(c22)); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_u_chiral_conductor", factor(u2), factor(u4)); 
+ 
+stringout("/home/cytu/usr/work/thesis/src/data/all_eq_chiral_conductor", e11, e12, e21, e22);
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_bv_chiral_conductor", eq2, eq4);
+
+det: determinant(subst([I=1], matrix([get_e(c11), get_e(c12)], [get_e(c21), get_e(c22)])))$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_det_chiral_conductor", factor(det));
+
+/* achiral-chiral-gerlach */
+
+Q_il: K_g_il_i * gamma_il / k_e * psi1 + S_g_il_i * m1 * phi1$
+Q_ir: K_g_ir_i * gamma_ir / k_e * psi2 + S_g_ir_i * m2 * phi2$
+
+Q_el: K_g_el_e * psi1 + S_g_el_e * c1 * phi1$
+Q_er: K_g_er_e * psi2 + S_g_er_e * c2 * phi2$
+
+Q_il_nu: subst([S_g_il_i=Ks_g_il + I, K_g_il_i=T_g_il], Q_il)$
+Q_ir_nu: subst([S_g_ir_i=Ks_g_ir + I, K_g_ir_i=T_g_ir], Q_ir)$
+Q_el_nu: subst([S_g_el_e=Ks_g_el - I, K_g_el_e=T_g_el], Q_el)$
+Q_er_nu: subst([S_g_er_e=Ks_g_er - I, K_g_er_e=T_g_er], Q_er)$
+Q_il_n: subst([K_g_il_i=K_g_il - I, S_g_il_i=S_g_il], Q_il)$
+Q_ir_n: subst([K_g_ir_i=K_g_ir - I, S_g_ir_i=S_g_ir], Q_ir)$
+Q_el_n: subst([K_g_el_e=K_g_el + I, S_g_el_e=S_g_el], Q_el)$
+Q_er_n: subst([K_g_er_e=K_g_er + I, S_g_er_e=S_g_er], Q_er)$
+
+beta_e: 0$
+
+eq1: Na = Q_il_nu - gamma_il / k_e * Q_el_nu$
+eq2: Nb = Q_ir_nu - gamma_ir / k_e * Q_er_nu$
+eq3: Da = Q_il_n - xi_p * Q_el_n - xi_m * Q_er_n$ 
+eq4: Db = Q_ir_n - xi_m * Q_el_n - xi_p * Q_er_n$ 
+
+/* quick and dirty way to generate u for computations */
+
+Q_ir_n0: c_ir * J0_ir$
+Q_il_n0: c_il * J0_il$
+Q_er_n0: c_er * H0_er$
+Q_el_n0: c_el * H0_el$
+Q_ir_nu0: -c_ir * gamma_ir * J1_ir * d_nu$
+Q_il_nu0: -c_il * gamma_il * J1_il * d_nu$
+Q_er_nu0: -c_er * gamma_er * H1_er * d_nu$
+Q_el_nu0: -c_el * gamma_el * H1_el * d_nu$
+
+u1: 2 * (Q_il_nu0 - gamma_il / k_e * Q_el_nu0)$
+u2: 2 * (Q_ir_nu0 - gamma_ir / k_e * Q_er_nu0)$
+u3: 2 * (Q_il_n0 - xi_p * Q_el_n0 - xi_m * Q_er_n0)$ 
+u4: 2 * (Q_ir_n0 - xi_m * Q_el_n0 - xi_p * Q_er_n0)$ 
+
+c11: coeff(expand(rhs(eq1)), phi1)$
+c12: coeff(expand(rhs(eq1)), phi2)$
+c13: coeff(expand(rhs(eq1)), psi1)$
+c14: coeff(expand(rhs(eq1)), psi2)$
+
+c21: coeff(expand(rhs(eq2)), phi1)$
+c22: coeff(expand(rhs(eq2)), phi2)$
+c23: coeff(expand(rhs(eq2)), psi1)$
+c24: coeff(expand(rhs(eq2)), psi2)$
+
+c31: coeff(expand(rhs(eq3)), phi1)$
+c32: coeff(expand(rhs(eq3)), phi2)$
+c33: coeff(expand(rhs(eq3)), psi1)$
+c34: coeff(expand(rhs(eq3)), psi2)$
+
+c41: coeff(expand(rhs(eq4)), phi1)$
+c42: coeff(expand(rhs(eq4)), phi2)$
+c43: coeff(expand(rhs(eq4)), psi1)$
+c44: coeff(expand(rhs(eq4)), psi2)$
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_c_achiral_chiral_gerlach", finalc(c11), finalc(c12), finalc(c13), finalc(c14), finalc(c21), finalc(c22), finalc(c23), finalc(c24), finalc(c31), finalc(c32), finalc(c33), finalc(c34), finalc(c41), finalc(c42), finalc(c43), finalc(c44));
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_q_achiral_chiral_gerlach", Q_er, Q_el); 
+
+stringout("/home/cytu/usr/work/thesis/src/data/all_u_achiral_chiral_gerlach", factor(u1), factor(u2), factor(u3), factor(u4)); 

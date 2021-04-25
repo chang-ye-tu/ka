@@ -1,0 +1,5 @@
+
+(%i*gamma_er+%i*gamma_el)*I;
+0;
+0;
+(%i/(2*gamma_er)+%i/(2*gamma_el))*I;

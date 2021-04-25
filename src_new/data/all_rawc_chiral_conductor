@@ -1,0 +1,5 @@
+
+-%i*z[2,1]*I/2+%i*z[1,1]*I/2-%i*z[2,1]*K_g_er/2+%i*z[1,1]*K_g_el/2;
+%i*z[1,2]*S_g_el/2-%i*z[2,2]*S_g_er/2;
+-%i*z[2,1]*T_g_er/(2*gamma_er)-%i*z[1,1]*T_g_el/(2*gamma_el);
+%i*z[2,2]*I/(2*gamma_er)+%i*z[1,2]*I/(2*gamma_el)-%i*z[2,2]*Ks_g_er/(2*gamma_er)-%i*z[1,2]*Ks_g_el/(2*gamma_el);

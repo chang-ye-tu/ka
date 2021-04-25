@@ -1,0 +1,5 @@
+
+%i*gamma_er*K_g_er+%i*gamma_el*K_g_el;
+%i*S_g_el/2-%i*S_g_er/2;
+%i*T_g_er-%i*T_g_el;
+-%i*Ks_g_er/(2*gamma_er)-%i*Ks_g_el/(2*gamma_el);

@@ -1,0 +1,35 @@
+
+\begin{table*}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \caption{$Q_\text{el}^\infty$, chiral--chiral, $\omega=1.0$}
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    n & $\Re{Q_\text{el}^\infty}$ & $\Im{Q_\text{el}^\infty}$ & error \\
+    \midrule
+8 & 0.243745701405 & -0.724684453375 & 0.00271196245433\\ 
+16 & 0.241757202261 & -0.725272856485 & 1.03605758658e-06\\ 
+32 & 0.241757794274 & -0.725273382718 & 4.35983531144e-11\\
+    \bottomrule
+  \end{tabular}
+  \\ 
+  $$\text{exact }\Re{Q_\text{el}^\infty}=0.241757794243,\,\Im{Q_\text{el}^\infty}=-0.72527338273$$  
+\end{table*}
+
+
+\begin{table*}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \caption{$Q_\text{er}^\infty$, chiral--chiral, $\omega=1.0$}
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    n & $\Re{Q_\text{er}^\infty}$ & $\Im{Q_\text{er}^\infty}$ & error \\
+    \midrule
+8 & 1.03244571975 & -1.02822920156 & 0.00208666895473\\ 
+16 & 1.03076312919 & -1.03076447905 & 7.47947713644e-07\\ 
+32 & 1.0307634315 & -1.0307634315 & 1.05592330519e-12\\
+    \bottomrule
+  \end{tabular}
+  \\ 
+  $$\text{exact }\Re{Q_\text{er}^\infty}=1.0307634315,\,\Im{Q_\text{er}^\infty}=-1.0307634315$$  
+\end{table*}

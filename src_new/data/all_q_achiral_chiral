@@ -1,0 +1,3 @@
+
+psi[4]*S_e_e+K_e_e*(psi[2]*k_e*(rho+delta)+psi[1]*k_e*(rho-delta));
+psi[3]*S_e_e+K_e_e*(psi[1]*k_e*(rho+delta)+psi[2]*k_e*(rho-delta));

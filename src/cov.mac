@@ -1,0 +1,70 @@
+
+/* an example 
+https://stackoverflow.com/questions/45277762/maxima-cas-how-to-substitute-for-the-independent-variable-in-derivative-forms
+*/
+kill(all);
+load(pdiff);
+de: diff(f(x, y), x, 2) + diff(f(x, y), y, 2);
+de: ev(de, f(x,y):= g(x/y));
+de: ratsubst(w, x/y, y^2 * de);
+nde: convert_to_diff(de);
+depends(g, w);
+nde: subst(g, g(w), nde);
+ode2(nde, g, w);
+
+/* Black-Scholes equation */
+kill(all);
+load(pdiff);
+de: diff(V(s, t), t) + 1/2 * sigma^2 * s^2 * diff(V(s, t), s, 2) + (r - d0) * s * diff(V(s, t), s)  - r * V(s, t);
+de: ev(de, V(s, t):=(s + P_m)* Vb(s/(s+P_m), T - t));
+eq: subst(solve([xi = s/(s + P_m), tau = T-t], [s, t])[1], de); 
+eq: ratsimp((2 * xi - 2)/P_m * eq);
+
+
+/* Merton pdf page 100 */
+kill(all);
+load(pdiff);
+assume(g<1, g>0);
+de: (1-g)/g * (diff(I(W, t), W))^(g/(g-1)) * exp(-rho * t/(1-g)) + diff(I(W, t), t) + diff(I(W, t), W) * r * W - (alpha - r)^2 / (2*sigma^2) * diff(I(W, t), W) ^ 2 / diff(I(W, t), W, 2);
+de: ev(de, I(W, t):= b(t) / g * exp(-rho * t) * W^(g));
+de: multthru((2*g^2 * sigma^2 - 2*g * sigma^2) / (W^(g) * %e^(-rho * t)), de);
+de: map(ratsimp, map(radcan, de));
+
+/* laplacian in spherical coordinates */
+kill(all);
+load(pdiff);
+de: diff(U(x, y, z), x, 2) + diff(U(x, y, z), y, 2) + diff(U(x, y, z), z, 2);
+de: ev(de, U(x, y, z):=UU(sqrt(x^2+y^2+z^2), atan(y/x), acos(z/sqrt(x^2+y^2+z^2))));
+de: subst([x=r*cos(theta)*sin(phi), y=r*sin(theta)*sin(phi), z=r*cos(phi)], de); 
+de: map(ratsimp, map(trigsimp, de));
+de: subst([abs(r)=r, atan(sin(theta)/cos(theta))=theta, acos(cos(phi)*r/abs(r))=phi, abs(sin(phi))=sin(phi), acos(cos(phi))=phi], de);
+
+/*
+solve with ode2
+de0: subst(b, b(t), convert_to_diff(de));
+depends(b, t);
+ode2(de0 = 0, b, t);
+*/
+
+/*
+trigsimp(coeff(de, pderivop(UU, 0, 0, 1)(r, theta, phi)));
+*/
+
+/* 
+cross product implementation
+  http://maxima.sourceforge.net/docs/tutorial/en/gaertner-tutorial-revision/Pages/FnDef0002.htm 
+*/
+
+cross (v1, v2) := determinant(matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], v1, v2));
+
+solve([d1*p1 + d2*p2 + d3*p3 = 0, d2*p3 - d3*p2 = -%i*p1, d3*p1 - d1*p3 = -%i*p2, d1*p2 - d2*p1 = -%i*p3], [p1, p2, p3, d1, d2, d3]);
+
+solve([d1*p1 + d2*p2 + d3*p3 = 0, d2*p3 - d3*p2 = %i*p1, d3*p1 - d1*p3 = %i*p2, d1*p2 - d2*p1 = %i*p3], [p1, p2, p3, d1, d2, d3]);
+
+AA: matrix([jn_kl, jn_kr], [jn_kl + kl*jnp_kl, jn_kr + kr*jnp_kr]);
+aa: matrix([hn_kl, -hn_kr], [hn_kl + kl*hnp_kl, -(hn_kr + kr*hnp_kr)]);
+
+BB: matrix([1/kl * (jn_kl + kl*jnp_kl), 1/kr * (jn_kr + kr*jnp_kr)], [1/kl*jn_kl, 1/kr*jn_kr]);
+bb: matrix([1/kl * (hn_kl + kl*hnp_kl), -1/kr * (hn_kr + kr*hnp_kr)], [1/kl*hn_kl, -1/kr*hn_kr]);
+
+determinant(bb);

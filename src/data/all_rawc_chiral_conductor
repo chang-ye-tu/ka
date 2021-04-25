@@ -1,0 +1,5 @@
+
+(%i*z11/2-%i*z21/2)*I-%i*K_g_er*z21/2+%i*K_g_el*z11/2;
+%i*S_g_el*z12/2-%i*S_g_er*z22/2;
+-%i*T_g_er*z21/(2*gamma_er)-%i*T_g_el*z11/(2*gamma_el);
+(%i*z22/(2*gamma_er)+%i*z12/(2*gamma_el))*I-%i*Ks_g_er*z22/(2*gamma_er)-%i*Ks_g_el*z12/(2*gamma_el);

@@ -1,0 +1,3 @@
+
+(N_g_er_e-gamma_er*M_g_er_e)*(psi2*(rho+delta)/2+psi1*(delta-rho)/2);
+(N_g_el_e+gamma_el*M_g_el_e)*(psi1*(rho+delta)/2+psi2*(delta-rho)/2);
